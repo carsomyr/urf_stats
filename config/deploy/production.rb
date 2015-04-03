@@ -14,4 +14,4 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-server "production.organization.com", user: "ubuntu", roles: ["web"]
+server "urfstats.scalient.io", user: "ubuntu", roles: ["web"]

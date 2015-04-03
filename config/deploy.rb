@@ -26,8 +26,8 @@ set :rbenv_ruby, ""
 set :rbenv_path, "/usr/lib/rbenv"
 
 # The application.
-set :deploy_to, "/home/ubuntu/apps/application"
-set :repo_url, "git@github.com:organization/application"
+set :deploy_to, "/home/ubuntu/apps/scalient"
+set :repo_url, "git@github.com:carsomyr/urf_stats-private"
 set :branch, "master"
 set :rails_env, "production"
 
@@ -36,6 +36,7 @@ set :linked_files, fetch(:linked_files, []) + ([
                      "airbrake.yml",
                      "aws.yml",
                      "google_analytics.yml",
+                     "riot.yml",
                      "secrets.yml"
                  ].map do |filename|
                    (Pathname.new("config") + filename).to_s
