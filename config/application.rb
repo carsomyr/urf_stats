@@ -76,7 +76,8 @@ class Application < Rails::Application
   # Load our custom YAML settings.
   ["config/action_mailer.yml",
    "config/airbrake.yml",
-   "config/google_analytics.yml"].each do |filename|
+   "config/google_analytics.yml",
+   "config/riot.yml"].each do |filename|
     load_yaml(filename)
   end
 
