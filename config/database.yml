@@ -1,7 +1,7 @@
 ---
 base: &base
   adapter: postgresql
-  database: application
+  database: urf_stats
   pool: 5
   timeout: 5000
   encoding: unicode
@@ -12,4 +12,4 @@ production: *base
 
 test:
   <<: *base
-  database: application-test
+  database: urf_stats-test

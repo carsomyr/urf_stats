@@ -14,19 +14,13 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-require "riot"
-require "urf_stats"
+class AddChallengeBucketCounters < ActiveRecord::Migration
+  def change
+    create_table :challenge_bucket_counters do |t|
+      t.string :region, limit: 4
+      t.index :region, unique: true
 
-start_time = UrfStats::CONTEST_START_TIME
-
-ActiveRecord::Base.transaction do
-  Riot::Api::REGIONS.each do |region|
-    cbc = ChallengeBucketCounter.find_or_initialize_by(region: region)
-
-    if cbc.new_record?
-      cbc.bucket_time = start_time
+      t.datetime :bucket_time
     end
-
-    cbc.save!
   end
 end

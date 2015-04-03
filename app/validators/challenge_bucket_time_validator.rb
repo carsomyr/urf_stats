@@ -14,19 +14,14 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-require "riot"
-require "urf_stats"
+require "date"
 
-start_time = UrfStats::CONTEST_START_TIME
+class ChallengeBucketTimeValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    record.errors.add(attribute, "must be of type `DateTime`") \
+      if value.is_a?(DateTime)
 
-ActiveRecord::Base.transaction do
-  Riot::Api::REGIONS.each do |region|
-    cbc = ChallengeBucketCounter.find_or_initialize_by(region: region)
-
-    if cbc.new_record?
-      cbc.bucket_time = start_time
-    end
-
-    cbc.save!
+    record.errors.add(attribute, "must be a multiple of 5 minutes") \
+      if value.to_time.to_i % 300 != 0
   end
 end

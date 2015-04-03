@@ -14,19 +14,6 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-require "riot"
-require "urf_stats"
-
-start_time = UrfStats::CONTEST_START_TIME
-
-ActiveRecord::Base.transaction do
-  Riot::Api::REGIONS.each do |region|
-    cbc = ChallengeBucketCounter.find_or_initialize_by(region: region)
-
-    if cbc.new_record?
-      cbc.bucket_time = start_time
-    end
-
-    cbc.save!
-  end
+class ChallengeBucketCounter < ActiveRecord::Base
+  validates :bucket_time, challenge_bucket_time: true
 end
