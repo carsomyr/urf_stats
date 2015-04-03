@@ -1,0 +1,15 @@
+---
+base: &base
+  adapter: postgresql
+  database: application
+  pool: 5
+  timeout: 5000
+  encoding: unicode
+
+development: *base
+
+production: *base
+
+test:
+  <<: *base
+  database: application-test

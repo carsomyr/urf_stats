@@ -1,0 +1,15 @@
+---
+modules:
+  - name: "application"
+priority: ["application"]
+shim:
+  "ember":
+    deps: ["jquery"]
+    exports: "Ember"
+  "ember-data":
+    deps: ["ember"]
+    exports: "DS"
+  "jquery_ujs":
+    deps: ["jquery"]
+    exports: "jQuery"
+enforceDefine: true

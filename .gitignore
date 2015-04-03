@@ -1,0 +1,9 @@
+/.ruby-version
+/.bundle/
+/.idea/
+/config/*.yml
+/db/*.sqlite3
+/log/
+/public/system
+/tmp/
+/vendor/bundle/
