@@ -38,4 +38,6 @@ if Sidekiq.server?
     # of workers, which may then depend on the number of cores on the host machine.
     config.poll_interval = 15
   end
+
+  require "urf_stats/workers/save_match_ids_worker"
 end
