@@ -28,8 +28,16 @@ module Riot
       @config = config
     end
 
-    def self.client(region = "na")
-      Riot::Api::Client.new(region, @config[:production_key])
+    def self.client(region = "na", options = {})
+      options[:is_development] ||= false
+
+      if options[:is_development]
+        api_key = @config[:development_key]
+      else
+        api_key = @config[:production_key]
+      end
+
+      Riot::Api::Client.new(region, api_key, options)
     end
   end
 end

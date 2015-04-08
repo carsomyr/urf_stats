@@ -18,7 +18,7 @@ require "urf_stats"
 
 module UrfStats
   module Workers
-    class SaveMatchIdsWorker
+    class SaveMatchesWorker
       include Sidekiq::Worker
       include Sidetiq::Schedulable
 
@@ -27,7 +27,7 @@ module UrfStats
       recurrence { secondly(UrfStats::JOB_LENGTH_MILLIS / 1000) }
 
       def perform
-        UrfStats.save_match_ids
+        UrfStats.save_matches
       end
     end
   end

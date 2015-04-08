@@ -25,7 +25,7 @@ module UrfStats
 
   JOB_LENGTH_MILLIS = 600000
 
-  def self.save_match_ids
+  def self.save_matches
     job_start_time = DateTime.now
     job_start_time_millis = job_start_time.strftime("%Q").to_i
     bucket_end_time = (job_start_time - 1.hour).to_time.to_i
@@ -39,6 +39,7 @@ module UrfStats
       lhs[0] <=> rhs[0]
     end[0, n_max_requests]
 
+    # Read randomized 5-minute match id buckets from the challenge API.
     request_param_tuples.each do |time, cbc|
       job_current_time_millis = DateTime.now.strftime("%Q").to_i
 
@@ -67,6 +68,29 @@ module UrfStats
       end
 
       sleep(REQUEST_SPACING_MILLIS / 1000.0)
+    end
+
+    # Now fill in any missing match JSON; process in small batches to prevent unbounded heap growth.
+    Riot::Api::Match.where(content: nil).find_in_batches(batch_size: 10).each do |riot_api_matches|
+      riot_api_matches.each do |riot_api_match|
+        job_current_time_millis = DateTime.now.strftime("%Q").to_i
+
+        return \
+          if job_current_time_millis - job_start_time_millis > JOB_LENGTH_MILLIS
+
+        response = Riot::Api.client(riot_api_match.region).match(riot_api_match.match_id)
+
+        case response.status
+          when 200
+            riot_api_match.content = response.body
+            riot_api_match.save!
+          else
+            # If 429 (rate limit exceeded) or anything unexpected, return immediately.
+            return
+        end
+
+        sleep(REQUEST_SPACING_MILLIS / 1000.0)
+      end
     end
   end
 end

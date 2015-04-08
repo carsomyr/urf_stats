@@ -24,12 +24,14 @@ module Riot
       attr_reader :region
       attr_reader :key
 
-      def initialize(region, key)
+      def initialize(region, key, options = {})
+        options[:log_level] ||= :info
+
         @region = region
         @key = key
         @connection = Faraday.new(url: "https://#{region}.api.pvp.net") do |faraday|
           logger = Logger.new(STDOUT)
-          logger.level = Logger::INFO
+          logger.level = Logger.const_get(options[:log_level].to_s.upcase)
 
           faraday.request :json
           faraday.response :logger, logger
