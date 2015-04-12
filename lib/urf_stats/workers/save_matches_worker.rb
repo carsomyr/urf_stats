@@ -26,7 +26,24 @@ module UrfStats
 
       recurrence { secondly(UrfStats::JOB_LENGTH_MILLIS / 1000) }
 
+      PROCESS_CONCURRENCY = 2
+
       def perform
+        job_start_time_millis = DateTime.now.strftime("%Q").to_i
+        riot_api_matches = Riot::Api::Match.arel_table
+
+        Riot::Api::Match.select(:id)
+            .where((riot_api_matches[:creation_time].eq nil).and(riot_api_matches[:content].not_eq nil))
+            .find_in_batches(batch_size: 6000)
+            .first(PROCESS_CONCURRENCY)
+            .each do |matches|
+          UrfStats::Workers::MatchCreationTimeWorker.perform_async(
+              matches.first.id,
+              matches.last.id,
+              job_start_time_millis
+          )
+        end
+
         UrfStats.save_matches
       end
     end

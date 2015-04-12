@@ -21,11 +21,11 @@ require "riot"
 module UrfStats
   CONTEST_START_TIME = DateTime.strptime("2015-03-31T22:00:00-07:00")
 
-  REQUEST_SPACING_MILLIS = 40
+  REQUEST_SPACING_MILLIS = 20
 
   JOB_LENGTH_MILLIS = 600000
 
-  CONCURRENCY = 12
+  CONCURRENCY = 6
 
   def self.save_matches
     job_start_time = DateTime.now
@@ -103,36 +103,6 @@ module UrfStats
           end
 
           sleep(REQUEST_SPACING_MILLIS / 1000.0)
-        end
-
-        thread_queue.push(true)
-      end
-    end
-
-    CONCURRENCY.times { thread_queue.shift }
-
-    GC.start
-
-    CONCURRENCY.times { thread_queue.push(true) }
-
-    # Fill in any missing creation time and duration; process in small batches to prevent unbounded heap growth.
-    Riot::Api::Match.where(creation_time: nil).find_in_batches(batch_size: 3).each do |matches|
-      job_current_time_millis = DateTime.now.strftime("%Q").to_i
-
-      return \
-        if job_current_time_millis - job_start_time_millis > JOB_LENGTH_MILLIS
-
-      thread_queue.shift
-
-      Thread.new do
-        matches.each do |m|
-          content = m.content
-          m.creation_time = DateTime.strptime(content["matchCreation"].to_s, "%Q")
-          m.duration = content["matchDuration"].to_i
-          m.save!
-
-          Sidekiq::Logging.logger.info "Processed (match id, region) (#{m.match_id}, #{m.region})" \
-            " with creation time #{m.creation_time.to_s.dump} and duration #{m.duration} seconds."
         end
 
         thread_queue.push(true)

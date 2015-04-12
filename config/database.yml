@@ -2,7 +2,7 @@
 base: &base
   adapter: postgresql
   database: urf_stats
-  pool: 40
+  pool: 8
   timeout: 5000
   encoding: unicode
 

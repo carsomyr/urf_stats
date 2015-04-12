@@ -39,5 +39,9 @@ if Sidekiq.server?
     config.poll_interval = 15
   end
 
-  require "urf_stats/workers/save_matches_worker"
+  if !Sidekiq.options[:queues].include?("worker")
+    require "urf_stats/workers/save_matches_worker"
+  end
+
+  require "urf_stats/workers/match_creation_time_worker"
 end
