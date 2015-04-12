@@ -14,14 +14,16 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-module Riot
-  module Api
-    class Match < ActiveRecord::Base
-      self.table_name_prefix = "riot_api_"
+require "date"
 
-      validates :match_id, presence: true, uniqueness: {scope: :region}
-      validates :region, presence: true
-      validates :duration, numericality: {greater_than_or_equal_to: 0}, allow_nil: true
+class AddRiotApiMatchesCreationTimeAndDuration < ActiveRecord::Migration
+  def change
+    change_table :riot_api_matches do |t|
+      t.datetime :creation_time
+      t.integer :duration
+
+      # Anticipate that we'll be doing time series operations.
+      t.index :creation_time
     end
   end
 end
