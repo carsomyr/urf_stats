@@ -53,13 +53,15 @@ module UrfStats
 
       case response.status
         when 200
-          response.body.each do |match_id|
-            match = Riot::Api::Match.find_or_initialize_by(match_id: match_id, region: region)
-            match.save!
-          end
+          ActiveRecord::Base.transaction do
+            response.body.each do |match_id|
+              match = Riot::Api::Match.find_or_initialize_by(match_id: match_id, region: region)
+              match.save!
+            end
 
-          cbc.bucket_time = bucket_time + 5.minutes
-          cbc.save!
+            cbc.bucket_time = bucket_time + 5.minutes
+            cbc.save!
+          end
         when 404
           cbc.bucket_time = bucket_time + 5.minutes
           cbc.save!
