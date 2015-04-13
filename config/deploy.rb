@@ -37,7 +37,8 @@ set :linked_files, fetch(:linked_files, []) + ([
                      "aws.yml",
                      "google_analytics.yml",
                      "riot.yml",
-                     "secrets.yml"
+                     "secrets.yml",
+                     "urf_stats.yml"
                  ].map do |filename|
                    (Pathname.new("config") + filename).to_s
                  end)

@@ -26,7 +26,7 @@ module UrfStats
 
       recurrence { secondly(UrfStats::JOB_LENGTH_MILLIS / 1000) }
 
-      PROCESS_CONCURRENCY = 2
+      PROCESS_CONCURRENCY = Rails.application.config.urf_stats["process_concurrency"]
 
       def perform
         job_start_time_millis = DateTime.now.strftime("%Q").to_i

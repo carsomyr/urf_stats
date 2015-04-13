@@ -77,7 +77,8 @@ class Application < Rails::Application
   ["config/action_mailer.yml",
    "config/airbrake.yml",
    "config/google_analytics.yml",
-   "config/riot.yml"].each do |filename|
+   "config/riot.yml",
+   "config/urf_stats.yml"].each do |filename|
     load_yaml(filename)
   end
 
