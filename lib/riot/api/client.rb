@@ -60,6 +60,47 @@ module Riot
         )
       end
 
+      def champions
+        @connection.get(
+            "/api/lol/static-data/#{@region}/v1.2/champion",
+            {
+                "api_key" => @key,
+                "champData" => "all"
+            }
+        )
+
+      end
+
+      def items
+        @connection.get(
+            "/api/lol/static-data/#{@region}/v1.2/item",
+            {
+                "api_key" => @key,
+                "itemListData" => "all"
+            }
+        )
+      end
+
+      def masteries
+        @connection.get(
+            "/api/lol/static-data/#{@region}/v1.2/mastery",
+            {
+                "api_key" => @key,
+                "masteryListData" => "all"
+            }
+        )
+      end
+
+      def runes
+        @connection.get(
+            "/api/lol/static-data/#{@region}/v1.2/rune",
+            {
+                "api_key" => @key,
+                "runeListData" => "all"
+            }
+        )
+      end
+
       def to_nearest_5_minutes(date_time)
         date_time - (to_epoch(date_time) % 300).seconds
       end
