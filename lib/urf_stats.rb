@@ -17,8 +17,11 @@
 require "date"
 
 require "riot"
+require "urf_stats/champion_accumulator"
 require "urf_stats/dto"
+require "urf_stats/item_purchase_accumulator"
 require "urf_stats/match_accumulator"
+require "urf_stats/useless_rune_mastery_accumulator"
 
 module UrfStats
   CONTEST_START_TIME = DateTime.strptime("2015-03-31T22:00:00-07:00")
