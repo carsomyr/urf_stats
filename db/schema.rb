@@ -11,21 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 4) do
+ActiveRecord::Schema.define(version: 5) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "challenge_bucket_counters", force: :cascade do |t|
-    t.string   "region",      limit: 4
-    t.datetime "bucket_time"
+    t.string   "region",      limit: 4, null: false
+    t.datetime "bucket_time",           null: false
   end
 
   add_index "challenge_bucket_counters", ["region"], name: "index_challenge_bucket_counters_on_region", unique: true, using: :btree
 
   create_table "riot_api_matches", force: :cascade do |t|
-    t.integer  "match_id",      limit: 8
-    t.string   "region",        limit: 4
+    t.integer  "match_id",      limit: 8, null: false
+    t.string   "region",        limit: 4, null: false
     t.json     "content"
     t.datetime "creation_time"
     t.integer  "duration"
