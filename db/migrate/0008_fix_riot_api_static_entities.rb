@@ -14,15 +14,14 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-module Riot
-  module Api
-    class StaticEntity < ActiveRecord::Base
-      self.table_name_prefix = "riot_api_"
+class FixRiotApiStaticEntities < ActiveRecord::Migration
+  def change
+    change_table :riot_api_static_entities do |t|
+      t.remove_index column: [:id, :type], unique: true
 
-      validates :entity_id, uniqueness: {scope: :type}
-      validates :type, presence: true
-      validates :name, presence: true
-      validates :image_path, presence: true
+      t.integer :entity_id, limit: 8, null: false
+
+      t.index [:entity_id, :type], unique: true
     end
   end
 end

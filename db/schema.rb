@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 7) do
+ActiveRecord::Schema.define(version: 8) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,12 +62,13 @@ ActiveRecord::Schema.define(version: 7) do
   add_index "riot_api_matches", ["match_id", "region"], name: "index_riot_api_matches_on_match_id_and_region", unique: true, using: :btree
 
   create_table "riot_api_static_entities", force: :cascade do |t|
-    t.string "type",       null: false
-    t.string "name",       null: false
-    t.string "image_path", null: false
+    t.string  "type",                 null: false
+    t.string  "name",                 null: false
+    t.string  "image_path",           null: false
+    t.integer "entity_id",  limit: 8, null: false
   end
 
-  add_index "riot_api_static_entities", ["id", "type"], name: "index_riot_api_static_entities_on_id_and_type", unique: true, using: :btree
+  add_index "riot_api_static_entities", ["entity_id", "type"], name: "index_riot_api_static_entities_on_entity_id_and_type", unique: true, using: :btree
 
   create_table "stats", force: :cascade do |t|
     t.string   "region",                    limit: 4,             null: false
