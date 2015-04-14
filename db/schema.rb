@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 6) do
+ActiveRecord::Schema.define(version: 7) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,33 @@ ActiveRecord::Schema.define(version: 6) do
   end
 
   add_index "challenge_bucket_counters", ["region"], name: "index_challenge_bucket_counters_on_region", unique: true, using: :btree
+
+  create_table "entity_counts", force: :cascade do |t|
+    t.integer "stat_id",   null: false
+    t.integer "entity_id", null: false
+    t.string  "type",      null: false
+    t.integer "value",     null: false
+  end
+
+  add_index "entity_counts", ["stat_id", "entity_id", "type"], name: "index_entity_counts_on_stat_id_and_entity_id_and_type", unique: true, using: :btree
+
+  create_table "item_purchase_counts", force: :cascade do |t|
+    t.integer "stat_id",      null: false
+    t.integer "purchaser_id", null: false
+    t.integer "item_id",      null: false
+    t.integer "value",        null: false
+  end
+
+  add_index "item_purchase_counts", ["stat_id", "purchaser_id", "item_id"], name: "index_item_purchase_counts_uniqueness", unique: true, using: :btree
+
+  create_table "kill_assist_counts", force: :cascade do |t|
+    t.integer "stat_id",     null: false
+    t.integer "killer_id",   null: false
+    t.integer "assister_id", null: false
+    t.integer "value",       null: false
+  end
+
+  add_index "kill_assist_counts", ["stat_id", "killer_id", "assister_id"], name: "index_kill_assists_counts_uniqueness", unique: true, using: :btree
 
   create_table "riot_api_matches", force: :cascade do |t|
     t.integer  "match_id",      limit: 8, null: false
@@ -61,4 +88,12 @@ ActiveRecord::Schema.define(version: 6) do
 
   add_index "stats", ["region", "start_time", "interval"], name: "index_stats_on_region_and_start_time_and_interval", unique: true, using: :btree
 
+  add_foreign_key "entity_counts", "riot_api_static_entities", column: "entity_id"
+  add_foreign_key "entity_counts", "stats"
+  add_foreign_key "item_purchase_counts", "riot_api_static_entities", column: "item_id"
+  add_foreign_key "item_purchase_counts", "riot_api_static_entities", column: "purchaser_id"
+  add_foreign_key "item_purchase_counts", "stats"
+  add_foreign_key "kill_assist_counts", "riot_api_static_entities", column: "assister_id"
+  add_foreign_key "kill_assist_counts", "riot_api_static_entities", column: "killer_id"
+  add_foreign_key "kill_assist_counts", "stats"
 end
