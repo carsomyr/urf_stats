@@ -17,6 +17,8 @@
 require "date"
 
 require "riot"
+require "urf_stats/dto"
+require "urf_stats/match_accumulator"
 
 module UrfStats
   CONTEST_START_TIME = DateTime.strptime("2015-03-31T22:00:00-07:00")
@@ -108,5 +110,9 @@ module UrfStats
         thread_queue.push(true)
       end
     end
+  end
+
+  def self.match_accumulator(region = "na", start_time = CONTEST_START_TIME, interval = :day)
+    UrfStats::MatchAccumulator.new(region, start_time, interval)
   end
 end
