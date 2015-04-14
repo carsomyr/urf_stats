@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 5) do
+ActiveRecord::Schema.define(version: 6) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,5 +41,24 @@ ActiveRecord::Schema.define(version: 5) do
   end
 
   add_index "riot_api_static_entities", ["id", "type"], name: "index_riot_api_static_entities_on_id_and_type", unique: true, using: :btree
+
+  create_table "stats", force: :cascade do |t|
+    t.string   "region",                    limit: 4,             null: false
+    t.datetime "start_time",                                      null: false
+    t.integer  "interval",                            default: 2
+    t.integer  "n_matches",                                       null: false
+    t.integer  "average_duration",                                null: false
+    t.integer  "average_n_kills",                                 null: false
+    t.integer  "average_n_assists",                               null: false
+    t.integer  "average_time_first_blood",                        null: false
+    t.integer  "average_gold",                                    null: false
+    t.integer  "average_n_minions_killed",                        null: false
+    t.integer  "average_n_dragons",                               null: false
+    t.integer  "average_time_first_dragon",                       null: false
+    t.integer  "average_n_barons",                                null: false
+    t.integer  "average_time_first_baron",                        null: false
+  end
+
+  add_index "stats", ["region", "start_time", "interval"], name: "index_stats_on_region_and_start_time_and_interval", unique: true, using: :btree
 
 end
