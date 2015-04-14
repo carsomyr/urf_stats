@@ -1,0 +1,25 @@
+<%
+def millis_to_date_time(millis)
+  DateTime.strptime(millis.to_s, "%Q").strftime("%Y-%m-%d %H:%M:%S.%N").dump
+end
+
+def read_match_file(filename)
+  (Rails.application.root + "spec/fixtures/riot/api/matches" + filename).open("rb") { |f| f.read }
+end
+%>
+
+<%
+[["na", 1778978507, 1427871600015, 1316],
+ ["na", 1780544967, 1427958002027, 1798],
+ ["na", 1781954691, 1428044405237, 2817]].each_with_index do |tuple, i|
+  region, match_id, creation_time_millis, duration = *tuple
+%>
+match_<%= i.to_s %>:
+  region: <%= region.dump %>
+  match_id: <%= match_id %>
+  creation_time: <%= millis_to_date_time(creation_time_millis).dump %>
+  duration: <%= duration.to_s %>
+  content: <%= read_match_file("match_#{i}.json").dump %>
+<%
+end
+%>
