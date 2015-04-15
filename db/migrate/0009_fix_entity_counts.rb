@@ -14,11 +14,14 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-class EntityCount < ActiveRecord::Base
-  belongs_to :stat
-  belongs_to :entity, class_name: "Riot::Api::StaticEntity"
+class FixEntityCounts < ActiveRecord::Migration
+  def change
+    rename_column :entity_counts, :type, :count_type
 
-  validates :stat, presence: true, uniqueness: {scope: [:entity_id, :count_type]}
-  validates :count_type, presence: true
-  validates :value, presence: true
+    change_table :entity_counts do |t|
+      t.remove_index column: [:stat_id, :entity_id, :count_type], unique: true
+
+      t.index [:stat_id, :entity_id, :count_type], unique: true, name: "index_entity_counts_uniqueness"
+    end
+  end
 end

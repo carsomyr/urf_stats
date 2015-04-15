@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 8) do
+ActiveRecord::Schema.define(version: 9) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,13 +24,13 @@ ActiveRecord::Schema.define(version: 8) do
   add_index "challenge_bucket_counters", ["region"], name: "index_challenge_bucket_counters_on_region", unique: true, using: :btree
 
   create_table "entity_counts", force: :cascade do |t|
-    t.integer "stat_id",   null: false
-    t.integer "entity_id", null: false
-    t.string  "type",      null: false
-    t.integer "value",     null: false
+    t.integer "stat_id",    null: false
+    t.integer "entity_id",  null: false
+    t.string  "count_type", null: false
+    t.integer "value",      null: false
   end
 
-  add_index "entity_counts", ["stat_id", "entity_id", "type"], name: "index_entity_counts_on_stat_id_and_entity_id_and_type", unique: true, using: :btree
+  add_index "entity_counts", ["stat_id", "entity_id", "count_type"], name: "index_entity_counts_uniqueness", unique: true, using: :btree
 
   create_table "item_purchase_counts", force: :cascade do |t|
     t.integer "stat_id",      null: false
