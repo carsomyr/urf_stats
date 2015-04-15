@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 9) do
+ActiveRecord::Schema.define(version: 10) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,12 +89,12 @@ ActiveRecord::Schema.define(version: 9) do
 
   add_index "stats", ["region", "start_time", "interval"], name: "index_stats_on_region_and_start_time_and_interval", unique: true, using: :btree
 
-  add_foreign_key "entity_counts", "riot_api_static_entities", column: "entity_id"
-  add_foreign_key "entity_counts", "stats"
-  add_foreign_key "item_purchase_counts", "riot_api_static_entities", column: "item_id"
-  add_foreign_key "item_purchase_counts", "riot_api_static_entities", column: "purchaser_id"
-  add_foreign_key "item_purchase_counts", "stats"
-  add_foreign_key "kill_assist_counts", "riot_api_static_entities", column: "assister_id"
-  add_foreign_key "kill_assist_counts", "riot_api_static_entities", column: "killer_id"
-  add_foreign_key "kill_assist_counts", "stats"
+  add_foreign_key "entity_counts", "riot_api_static_entities", column: "entity_id", on_delete: :cascade
+  add_foreign_key "entity_counts", "stats", on_delete: :cascade
+  add_foreign_key "item_purchase_counts", "riot_api_static_entities", column: "item_id", on_delete: :cascade
+  add_foreign_key "item_purchase_counts", "riot_api_static_entities", column: "purchaser_id", on_delete: :cascade
+  add_foreign_key "item_purchase_counts", "stats", on_delete: :cascade
+  add_foreign_key "kill_assist_counts", "riot_api_static_entities", column: "assister_id", on_delete: :cascade
+  add_foreign_key "kill_assist_counts", "riot_api_static_entities", column: "killer_id", on_delete: :cascade
+  add_foreign_key "kill_assist_counts", "stats", on_delete: :cascade
 end
