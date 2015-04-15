@@ -57,7 +57,7 @@ module UrfStats
 
       if kill_events.size > 0
         @n_first_blood_games += 1
-        @total_time_first_blood += kill_events.first["timestamp"]
+        @total_time_first_blood += kill_events.first["timestamp"] / 1000
       end
 
       # Gold and minions.
@@ -81,7 +81,7 @@ module UrfStats
 
       if kill_events.size > 0
         @n_first_dragon_games += 1
-        @total_time_first_dragon += kill_events.first["timestamp"]
+        @total_time_first_dragon += kill_events.first["timestamp"] / 1000
       end
 
       # Baron kills.
@@ -92,7 +92,7 @@ module UrfStats
 
       if kill_events.size > 0
         @n_first_baron_games += 1
-        @total_time_first_baron += kill_events.first["timestamp"]
+        @total_time_first_baron += kill_events.first["timestamp"] / 1000
       end
 
       # Champion levels.
@@ -108,41 +108,25 @@ module UrfStats
     end
 
     def save!
-      @stat.n_matches = @n_matches
-
-      if @n_matches > 0
-        @stat.average_duration = @total_duration / @n_matches
-        @stat.average_n_kills = @total_kills / @n_matches
-        @stat.average_n_assists = @total_assists / @n_matches
-        @stat.average_gold = @total_gold / @n_matches
-        @stat.average_n_minions_killed = @total_minions_killed / @n_matches
-        @stat.average_champion_level = @total_champion_level / (10 * @n_matches)
-        @stat.average_n_dragons = @total_dragons / @n_matches
-        @stat.average_n_barons = @total_barons / @n_matches
-      else
-        @stat.average_duration = 0
-        @stat.average_n_kills = 0
-        @stat.average_n_assists = 0
-        @stat.average_gold = 0
-        @stat.average_n_minions_killed = 0
-        @stat.average_champion_level = 0
-        @stat.average_n_dragons = 0
-        @stat.average_n_barons = 0
-      end
-
-      ["blood", "dragon", "baron"].each do |type|
-        n_first_games = instance_variable_get("@n_first_#{type}_games")
-
-        if n_first_games > 0
-          @stat.send(
-              "average_time_first_#{type}=",
-              instance_variable_get("@total_time_first_#{type}") / n_first_games
-          )
-        else
-          @stat.send("average_time_first_#{type}=", 0)
-        end
-      end
-
+      @stat.attributes = Hash[
+          ["n_matches",
+           "total_duration",
+           "total_kills",
+           "total_assists",
+           "n_first_blood_games",
+           "total_time_first_blood",
+           "total_gold",
+           "total_minions_killed",
+           "total_champion_level",
+           "total_dragons",
+           "n_first_dragon_games",
+           "total_time_first_dragon",
+           "total_barons",
+           "n_first_baron_games",
+           "total_time_first_baron"].map do |attribute|
+            [attribute, instance_variable_get("@#{attribute}")]
+          end
+      ]
       @stat.save!
 
       super

@@ -30,19 +30,27 @@ describe UrfStats::Accumulator do
 
   context UrfStats::MatchAccumulator do
     it "summarizes match information" do
+      n_matches = @stat.n_matches
+      n_first_blood_games = @stat.n_first_blood_games
+      n_first_dragon_games = @stat.n_first_dragon_games
+      n_first_baron_games = @stat.n_first_baron_games
+
       expect(@stat).to_not eq(nil)
       expect(@stat.n_matches).to eq(3)
-      expect(@stat.average_duration).to eq(1977)
-      expect(@stat.average_n_kills).to eq(122)
-      expect(@stat.average_n_assists).to eq(105)
-      expect(@stat.average_time_first_blood).to eq(148954)
-      expect(@stat.average_gold).to eq(194753)
-      expect(@stat.average_n_minions_killed).to eq(1468)
-      expect(@stat.average_champion_level).to eq(23)
-      expect(@stat.average_n_dragons).to eq(4)
-      expect(@stat.average_time_first_dragon).to eq(464228)
-      expect(@stat.average_n_barons).to eq(1)
-      expect(@stat.average_time_first_baron).to eq(1442746)
+      expect(@stat.total_duration / n_matches).to eq(1977)
+      expect(@stat.total_kills / n_matches).to eq(122)
+      expect(@stat.total_assists / n_matches).to eq(105)
+      expect(n_first_blood_games).to eq(3)
+      expect(@stat.total_time_first_blood / n_first_blood_games).to eq(148)
+      expect(@stat.total_gold / n_matches).to eq(194753)
+      expect(@stat.total_minions_killed / n_matches).to eq(1468)
+      expect(@stat.total_champion_level / (n_matches * 10)).to eq(23)
+      expect(@stat.total_dragons).to eq(12)
+      expect(n_first_dragon_games).to eq(3)
+      expect(@stat.total_time_first_dragon / n_first_dragon_games).to eq(463)
+      expect(@stat.total_barons).to eq(4)
+      expect(n_first_baron_games).to eq(2)
+      expect(@stat.total_time_first_baron / n_first_baron_games).to eq(1442)
     end
   end
 

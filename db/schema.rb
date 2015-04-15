@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 13) do
+ActiveRecord::Schema.define(version: 14) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,21 +82,24 @@ ActiveRecord::Schema.define(version: 13) do
   add_index "riot_api_static_entities", ["entity_id"], name: "index_riot_api_static_entities_on_entity_id", using: :btree
 
   create_table "stats", force: :cascade do |t|
-    t.string   "region",                    limit: 4,             null: false
-    t.datetime "start_time",                                      null: false
-    t.integer  "interval",                            default: 2
-    t.integer  "n_matches",                                       null: false
-    t.integer  "average_duration",                                null: false
-    t.integer  "average_n_kills",                                 null: false
-    t.integer  "average_n_assists",                               null: false
-    t.integer  "average_time_first_blood",                        null: false
-    t.integer  "average_gold",                                    null: false
-    t.integer  "average_n_minions_killed",                        null: false
-    t.integer  "average_n_dragons",                               null: false
-    t.integer  "average_time_first_dragon",                       null: false
-    t.integer  "average_n_barons",                                null: false
-    t.integer  "average_time_first_baron",                        null: false
-    t.integer  "average_champion_level",                          null: false
+    t.string   "region",                  limit: 4,             null: false
+    t.datetime "start_time",                                    null: false
+    t.integer  "interval",                          default: 2
+    t.integer  "n_matches",                                     null: false
+    t.integer  "total_duration",          limit: 8,             null: false
+    t.integer  "total_kills",                                   null: false
+    t.integer  "total_assists",                                 null: false
+    t.integer  "total_time_first_blood",  limit: 8,             null: false
+    t.integer  "total_gold",              limit: 8,             null: false
+    t.integer  "total_minions_killed",                          null: false
+    t.integer  "total_dragons",                                 null: false
+    t.integer  "total_time_first_dragon", limit: 8,             null: false
+    t.integer  "total_barons",                                  null: false
+    t.integer  "total_time_first_baron",  limit: 8,             null: false
+    t.integer  "total_champion_level",                          null: false
+    t.integer  "n_first_blood_games",                           null: false
+    t.integer  "n_first_dragon_games",                          null: false
+    t.integer  "n_first_baron_games",                           null: false
   end
 
   add_index "stats", ["region", "start_time", "interval"], name: "index_stats_on_region_and_start_time_and_interval", unique: true, using: :btree

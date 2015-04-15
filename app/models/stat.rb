@@ -22,15 +22,18 @@ class Stat < ActiveRecord::Base
   validates :interval, presence: true
 
   validates :n_matches, presence: true
-  validates :average_duration, presence: true
-  validates :average_n_kills, presence: true
-  validates :average_n_assists, presence: true
-  validates :average_time_first_blood, presence: true
-  validates :average_gold, presence: true
-  validates :average_n_minions_killed, presence: true
-  validates :average_champion_level, presence: true
-  validates :average_n_dragons, presence: true
-  validates :average_time_first_dragon, presence: true
-  validates :average_n_barons, presence: true
-  validates :average_time_first_baron, presence: true
+  validates :total_duration, presence: true
+  validates :total_kills, presence: true
+  validates :total_assists, presence: true
+  validates :n_first_blood_games, presence: true
+  validates :total_time_first_blood, presence: true
+  validates :total_gold, presence: true
+  validates :total_minions_killed, presence: true
+  validates :total_champion_level, presence: true
+  validates :total_dragons, presence: true
+  validates :n_first_dragon_games, presence: true
+  validates :total_time_first_dragon, presence: true
+  validates :total_barons, presence: true
+  validates :n_first_baron_games, presence: true
+  validates :total_time_first_baron, presence: true
 end
