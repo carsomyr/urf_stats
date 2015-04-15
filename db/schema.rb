@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 11) do
+ActiveRecord::Schema.define(version: 12) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 11) do
     t.integer  "average_time_first_dragon",                       null: false
     t.integer  "average_n_barons",                                null: false
     t.integer  "average_time_first_baron",                        null: false
+    t.integer  "average_champion_level",                          null: false
   end
 
   add_index "stats", ["region", "start_time", "interval"], name: "index_stats_on_region_and_start_time_and_interval", unique: true, using: :btree

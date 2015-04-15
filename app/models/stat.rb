@@ -28,6 +28,7 @@ class Stat < ActiveRecord::Base
   validates :average_time_first_blood, presence: true
   validates :average_gold, presence: true
   validates :average_n_minions_killed, presence: true
+  validates :average_champion_level, presence: true
   validates :average_n_dragons, presence: true
   validates :average_time_first_dragon, presence: true
   validates :average_n_barons, presence: true

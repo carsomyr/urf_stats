@@ -33,6 +33,7 @@ module UrfStats
       @total_time_first_blood = 0
       @total_gold = 0
       @total_minions_killed = 0
+      @total_champion_level = 0
       @total_dragons = 0
       @n_first_dragon_games = 0
       @total_time_first_dragon = 0
@@ -94,6 +95,12 @@ module UrfStats
         @total_time_first_baron += kill_events.first["timestamp"]
       end
 
+      # Champion levels.
+
+      match_json["participants"].each do |participant|
+        @total_champion_level += participant["stats"]["champLevel"]
+      end
+
       @n_matches += 1
       @total_duration += match.duration
 
@@ -109,6 +116,7 @@ module UrfStats
         @stat.average_n_assists = @total_assists / @n_matches
         @stat.average_gold = @total_gold / @n_matches
         @stat.average_n_minions_killed = @total_minions_killed / @n_matches
+        @stat.average_champion_level = @total_champion_level / (10 * @n_matches)
         @stat.average_n_dragons = @total_dragons / @n_matches
         @stat.average_n_barons = @total_barons / @n_matches
       else
@@ -117,6 +125,7 @@ module UrfStats
         @stat.average_n_assists = 0
         @stat.average_gold = 0
         @stat.average_n_minions_killed = 0
+        @stat.average_champion_level = 0
         @stat.average_n_dragons = 0
         @stat.average_n_barons = 0
       end

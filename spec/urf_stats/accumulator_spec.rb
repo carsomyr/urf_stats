@@ -38,6 +38,7 @@ describe UrfStats::Accumulator do
       expect(@stat.average_time_first_blood).to eq(148954)
       expect(@stat.average_gold).to eq(194753)
       expect(@stat.average_n_minions_killed).to eq(1468)
+      expect(@stat.average_champion_level).to eq(23)
       expect(@stat.average_n_dragons).to eq(4)
       expect(@stat.average_time_first_dragon).to eq(464228)
       expect(@stat.average_n_barons).to eq(1)
