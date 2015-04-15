@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 12) do
+ActiveRecord::Schema.define(version: 13) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,9 @@ ActiveRecord::Schema.define(version: 12) do
     t.integer "value",      null: false
   end
 
+  add_index "entity_counts", ["entity_id"], name: "index_entity_counts_on_entity_id", using: :btree
   add_index "entity_counts", ["stat_id", "entity_id", "count_type"], name: "index_entity_counts_uniqueness", unique: true, using: :btree
+  add_index "entity_counts", ["stat_id"], name: "index_entity_counts_on_stat_id", using: :btree
 
   create_table "item_purchase_counts", force: :cascade do |t|
     t.integer "stat_id",      null: false
@@ -39,7 +41,10 @@ ActiveRecord::Schema.define(version: 12) do
     t.integer "value",        null: false
   end
 
+  add_index "item_purchase_counts", ["item_id"], name: "index_item_purchase_counts_on_item_id", using: :btree
+  add_index "item_purchase_counts", ["purchaser_id"], name: "index_item_purchase_counts_on_purchaser_id", using: :btree
   add_index "item_purchase_counts", ["stat_id", "purchaser_id", "item_id"], name: "index_item_purchase_counts_uniqueness", unique: true, using: :btree
+  add_index "item_purchase_counts", ["stat_id"], name: "index_item_purchase_counts_on_stat_id", using: :btree
 
   create_table "kill_assist_counts", force: :cascade do |t|
     t.integer "stat_id",     null: false
@@ -48,7 +53,10 @@ ActiveRecord::Schema.define(version: 12) do
     t.integer "value",       null: false
   end
 
+  add_index "kill_assist_counts", ["assister_id"], name: "index_kill_assist_counts_on_assister_id", using: :btree
+  add_index "kill_assist_counts", ["killer_id"], name: "index_kill_assist_counts_on_killer_id", using: :btree
   add_index "kill_assist_counts", ["stat_id", "killer_id", "assister_id"], name: "index_kill_assists_counts_uniqueness", unique: true, using: :btree
+  add_index "kill_assist_counts", ["stat_id"], name: "index_kill_assist_counts_on_stat_id", using: :btree
 
   create_table "riot_api_matches", force: :cascade do |t|
     t.integer  "match_id",      limit: 8, null: false
@@ -60,6 +68,8 @@ ActiveRecord::Schema.define(version: 12) do
 
   add_index "riot_api_matches", ["creation_time"], name: "index_riot_api_matches_on_creation_time", using: :btree
   add_index "riot_api_matches", ["match_id", "region"], name: "index_riot_api_matches_on_match_id_and_region", unique: true, using: :btree
+  add_index "riot_api_matches", ["match_id"], name: "index_riot_api_matches_on_match_id", using: :btree
+  add_index "riot_api_matches", ["region"], name: "index_riot_api_matches_on_region", using: :btree
 
   create_table "riot_api_static_entities", force: :cascade do |t|
     t.string  "type",                 null: false
@@ -69,6 +79,7 @@ ActiveRecord::Schema.define(version: 12) do
   end
 
   add_index "riot_api_static_entities", ["entity_id", "type"], name: "index_riot_api_static_entities_on_entity_id_and_type", unique: true, using: :btree
+  add_index "riot_api_static_entities", ["entity_id"], name: "index_riot_api_static_entities_on_entity_id", using: :btree
 
   create_table "stats", force: :cascade do |t|
     t.string   "region",                    limit: 4,             null: false
@@ -89,6 +100,8 @@ ActiveRecord::Schema.define(version: 12) do
   end
 
   add_index "stats", ["region", "start_time", "interval"], name: "index_stats_on_region_and_start_time_and_interval", unique: true, using: :btree
+  add_index "stats", ["region"], name: "index_stats_on_region", using: :btree
+  add_index "stats", ["start_time"], name: "index_stats_on_start_time", using: :btree
 
   add_foreign_key "entity_counts", "riot_api_static_entities", column: "entity_id", on_delete: :cascade
   add_foreign_key "entity_counts", "stats", on_delete: :cascade
