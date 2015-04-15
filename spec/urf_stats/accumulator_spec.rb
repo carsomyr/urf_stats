@@ -45,6 +45,115 @@ describe UrfStats::Accumulator do
     end
   end
 
+  context UrfStats::ChampionAccumulator do
+    it "summarizes champion information" do
+      expected_pick_counts = {
+          "Amumu" => 1, "Anivia" => 1, "Blitzcrank" => 1, "Cassiopeia" => 1, "Cho'Gath" => 1, "Evelynn" => 1,
+          "Ezreal" => 3, "Fiddlesticks" => 1, "Fiora" => 1, "Hecarim" => 1, "Heimerdinger" => 1, "Jayce" => 1,
+          "Kassadin" => 1, "Katarina" => 1, "Kayle" => 1, "Leona" => 1, "Lux" => 1, "Master Yi" => 1, "Nidalee" => 1,
+          "Shaco" => 1, "Sivir" => 1, "Syndra" => 1, "Talon" => 1, "Teemo" => 2, "Twisted Fate" => 1, "Vayne" => 1,
+          "Vel'Koz" => 1
+      }
+
+      expected_ban_counts = {
+          "Ahri" => 1, "Blitzcrank" => 1, "Kassadin" => 1, "Katarina" => 1, "Kayle" => 1, "Kog'Maw" => 1,
+          "LeBlanc" => 2, "Lucian" => 1, "Master Yi" => 2, "Nidalee" => 1, "Ryze" => 1, "Shaco" => 1, "Sona" => 2,
+          "Zed" => 1
+      }
+
+      expected_win_counts = {
+          "Amumu" => 1, "Anivia" => 1, "Cassiopeia" => 1, "Ezreal" => 2, "Fiddlesticks" => 1, "Fiora" => 1,
+          "Kayle" => 1, "Leona" => 1, "Lux" => 1, "Master Yi" => 1, "Nidalee" => 1, "Sivir" => 1, "Syndra" => 1,
+          "Talon" => 1
+      }
+
+      expected_kill_counts = {
+          "Amumu" => 8, "Anivia" => 8, "Blitzcrank" => 14, "Cassiopeia" => 10, "Cho'Gath" => 9, "Evelynn" => 27,
+          "Ezreal" => 32, "Fiddlesticks" => 14, "Fiora" => 8, "Hecarim" => 12, "Heimerdinger" => 4, "Jayce" => 19,
+          "Kassadin" => 3, "Katarina" => 4, "Kayle" => 12, "Leona" => 13, "Lux" => 4, "Master Yi" => 20,
+          "Nidalee" => 11, "Shaco" => 8, "Sivir" => 14, "Syndra" => 34, "Talon" => 23, "Teemo" => 25,
+          "Twisted Fate" => 6, "Vayne" => 16, "Vel'Koz" => 10
+      }
+
+      expected_death_counts = {
+          "Amumu" => 18, "Anivia" => 13, "Blitzcrank" => 10, "Cassiopeia" => 17, "Cho'Gath" => 8, "Evelynn" => 17,
+          "Ezreal" => 38, "Fiddlesticks" => 10, "Fiora" => 7, "Hecarim" => 17, "Heimerdinger" => 10, "Jayce" => 10,
+          "Kassadin" => 10, "Katarina" => 19, "Kayle" => 5, "Leona" => 17, "Lux" => 6, "Master Yi" => 4,
+          "Nidalee" => 21, "Shaco" => 9, "Sivir" => 12, "Syndra" => 12, "Talon" => 14, "Teemo" => 28,
+          "Twisted Fate" => 11, "Vayne" => 15, "Vel'Koz" => 10
+      }
+
+      expected_assist_counts = {
+          "Amumu" => 11, "Anivia" => 12, "Blitzcrank" => 8, "Cassiopeia" => 22, "Cho'Gath" => 8, "Evelynn" => 15,
+          "Ezreal" => 34, "Fiddlesticks" => 9, "Fiora" => 6, "Hecarim" => 13, "Heimerdinger" => 5, "Jayce" => 15,
+          "Kassadin" => 3, "Katarina" => 7, "Kayle" => 14, "Leona" => 15, "Lux" => 13, "Master Yi" => 1,
+          "Nidalee" => 15, "Shaco" => 10, "Sivir" => 9, "Syndra" => 9, "Talon" => 9, "Teemo" => 30, "Twisted Fate" => 9,
+          "Vayne" => 9, "Vel'Koz" => 5
+      }
+
+      [["CHAMPION_PICK", expected_pick_counts],
+       ["CHAMPION_BAN", expected_ban_counts],
+       ["CHAMPION_WIN", expected_win_counts],
+       ["CHAMPION_KILL", expected_kill_counts],
+       ["CHAMPION_DEATH", expected_death_counts],
+       ["CHAMPION_ASSIST", expected_assist_counts]].each do |count_type, expected_champion_counts|
+        counts = Hash[
+            EntityCount.where(stat: @stat, count_type: count_type).eager_load(:entity).map do |ec|
+              [ec.entity.name, ec.value]
+            end
+        ]
+
+        expect(counts).to eq(expected_champion_counts)
+      end
+
+      n_laners = 0
+
+      [[:top,
+        "Amumu" => 1, "Blitzcrank" => 1, "Cho'Gath" => 1, "Evelynn" => 1, "Ezreal" => 1, "Fiddlesticks" => 1,
+        "Fiora" => 1, "Nidalee" => 1, "Shaco" => 1, "Teemo" => 1],
+       [:jungle,
+        "Cassiopeia" => 1, "Kassadin" => 1, "Katarina" => 1, "Master Yi" => 1],
+       [:middle,
+        "Anivia" => 1, "Jayce" => 1, "Kayle" => 1, "Talon" => 1, "Twisted Fate" => 1],
+       [:bottom,
+        "Ezreal" => 2, "Hecarim" => 1, "Heimerdinger" => 1, "Leona" => 1, "Lux" => 1, "Sivir" => 1, "Syndra" => 1,
+        "Teemo" => 1, "Vayne" => 1, "Vel'Koz" => 1]].each do |lane_type, expected_lane_counts|
+        counts = Hash[
+            EntityCount.where(stat: @stat, count_type: "CHAMPION_LANE_#{lane_type.to_s.upcase}")
+                .eager_load(:entity).map do |ec|
+              [ec.entity.name, ec.value]
+            end
+        ]
+
+        expect(counts).to eq(expected_lane_counts)
+
+        n_laners += counts.values.reduce(0) { |sum, count| sum + count }
+      end
+
+      # The total number of laners had better equal the number of games times 10.
+      expect(n_laners).to eq(@stat.n_matches * 10)
+
+      kill_assist_counts = KillAssistCount.arel_table
+
+      # Note: We can't use `eager_load` here because of SQL grouping.
+      alternate_assist_counts = Hash[
+          KillAssistCount
+              .select(kill_assist_counts[:assister_id], kill_assist_counts[:value].sum.as("total"))
+              .where(
+                  (kill_assist_counts[:stat_id].eq @stat.id)
+                      .and(kill_assist_counts[:assister_id].not_eq nil)
+              )
+              .group(:assister_id)
+              .preload(:assister).map do |kac|
+            [kac.assister.name, kac.total]
+          end
+      ]
+
+      # Arrive at the assist count in an alternate way.
+      expect(alternate_assist_counts).to eq(expected_assist_counts)
+    end
+  end
+
   context UrfStats::ItemPurchaseAccumulator do
     it "counts item purchases by champion" do
       counts = ItemPurchaseCount.where(stat: @stat).eager_load(:item, :purchaser).map do |ipc|

@@ -14,12 +14,8 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-class KillAssistCount < ActiveRecord::Base
-  belongs_to :stat
-  belongs_to :killer, class_name: "Riot::Api::Champion"
-  belongs_to :assister, class_name: "Riot::Api::Champion"
-
-  validates :stat, presence: true, uniqueness: {scope: [:killer_id, :assister_id]}
-  validates :killer, presence: true
-  validates :value, presence: true
+class RemoveKillAssistCountsAssisterNotNullConstraint < ActiveRecord::Migration
+  def change
+    change_column :kill_assist_counts, :assister_id, :integer, null: true
+  end
 end

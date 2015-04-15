@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 10) do
+ActiveRecord::Schema.define(version: 11) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 10) do
   create_table "kill_assist_counts", force: :cascade do |t|
     t.integer "stat_id",     null: false
     t.integer "killer_id",   null: false
-    t.integer "assister_id", null: false
+    t.integer "assister_id"
     t.integer "value",       null: false
   end
 
