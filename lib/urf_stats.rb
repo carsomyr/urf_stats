@@ -115,6 +115,37 @@ module UrfStats
     end
   end
 
+  def self.save_stat(region = "na", start_time = CONTEST_START_TIME, interval = :day)
+    stats = Stat.arel_table
+    stat = Stat.where((stats[:region].eq region).and(stats[:start_time].eq start_time)).first
+
+    return \
+      if stat
+
+    acc = match_accumulator(region, start_time, interval)
+    riot_api_matches = Riot::Api::Match.arel_table
+
+    Riot::Api::Match.where(
+        (riot_api_matches[:content].not_eq nil)
+            .and(riot_api_matches[:region].eq region)
+            .and(riot_api_matches[:creation_time].gteq start_time)
+            .and(riot_api_matches[:creation_time].lt (start_time + 1.send(interval.to_s)))
+    ).find_in_batches(batch_size: 8).each do |matches|
+      matches.each do |match|
+        acc.accumulate(match)
+
+        Sidekiq::Logging.logger.info "Processed (match id, region) (#{match.match_id}, #{match.region}) with creation" \
+          " time #{match.creation_time.to_s.dump} for the #{interval.to_s} starting at #{start_time.to_s.dump}."
+      end
+    end
+
+    # Make sure that this is an all-or-nothing operation.
+    ActiveRecord::Base.transaction { acc.save! }
+
+    Sidekiq::Logging.logger.info "Saved statistics for region #{region.dump} and the #{interval.to_s} starting at" \
+      " #{start_time.to_s.dump}."
+  end
+
   def self.match_accumulator(region = "na", start_time = CONTEST_START_TIME, interval = :day)
     UrfStats::MatchAccumulator.new(region, start_time, interval) do
       children.push(UrfStats::ChampionAccumulator.new(self))
