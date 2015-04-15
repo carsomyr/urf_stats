@@ -97,18 +97,94 @@ module UrfStats
 
     def initialize(parent)
       super(parent)
+
+      # Keys are tuples of the form (item id, champion id).
+      @item_champion_counts = {}
+      @item_champion_counts.default = 0
+
+      # Values are tuples of the form (total, number purchased).
+      @total_time_first_items = {}
+      @total_time_first_items.default = [0, 0]
     end
 
     def accumulate(match)
-      # Implement me!
+      match_json = match.content
+      dto = UrfStats::Dto
 
-      super
+      match_json["participants"].each do |participant|
+        champion_id = participant["championId"]
+        stats = participant["stats"]
+
+        # Throw in a `uniq` to prevent counting of multiple purchases of the same item.
+        (0...6).map do |i|
+          stats["item#{i}"]
+        end.uniq.select do |item_id|
+          item_id > 0
+        end.each do |item_id|
+          @item_champion_counts[[item_id, champion_id]] += 1 \
+            if BIG_TICKET_ITEM_IDS.include?(item_id)
+        end
+      end
+
+      (1...11).each do |participant_id|
+        first_purchase_event = dto.events(
+            match_json,
+            event_type: "ITEM_PURCHASED",
+            participant_id: participant_id
+        ).find do |event|
+          BIG_TICKET_ITEM_IDS.include?(event["itemId"])
+        end
+
+        next \
+          if !first_purchase_event
+
+        item_id = first_purchase_event["itemId"]
+        timestamp = first_purchase_event["timestamp"]
+        total_time_first_item, n_purchases = *@total_time_first_items[item_id]
+
+        @total_time_first_items[item_id] = [total_time_first_item + timestamp, n_purchases + 1]
+      end
     end
 
     def save!
-      # Implement me!
+      stat = parent.stat
 
-      super
+      items_by_item_id = Hash[
+          Riot::Api::Item.all.map do |item|
+            [item.entity_id, item]
+          end
+      ]
+
+      champions_by_champion_id = Hash[
+          Riot::Api::Champion.all.map do |champion|
+            [champion.entity_id, champion]
+          end
+      ]
+
+      @item_champion_counts.each do |tuple, count|
+        item_id, champion_id = *tuple
+
+        item_purchase_count = ItemPurchaseCount.new(
+            stat: stat,
+            item: items_by_item_id[item_id],
+            purchaser: champions_by_champion_id[champion_id],
+            value: count
+        )
+        item_purchase_count.save!
+      end
+
+      @total_time_first_items.each do |item_id, tuple|
+        total_time_first_item, n_purchases = *tuple
+        average_time_first_item = total_time_first_item / n_purchases
+
+        first_item_count = EntityCount.new(
+            stat: stat,
+            entity: items_by_item_id[item_id],
+            count_type: "AVERAGE_TIME_FIRST_ITEM",
+            value: average_time_first_item
+        )
+        first_item_count.save!
+      end
     end
   end
 end

@@ -117,6 +117,7 @@ module UrfStats
 
   def self.match_accumulator(region = "na", start_time = CONTEST_START_TIME, interval = :day)
     UrfStats::MatchAccumulator.new(region, start_time, interval) do
+      children.push(UrfStats::ItemPurchaseAccumulator.new(self))
       children.push(UrfStats::UselessRuneMasteryAccumulator.new(self))
     end
   end
