@@ -45,6 +45,33 @@ describe UrfStats::Accumulator do
     end
   end
 
+  context UrfStats::UselessRuneMasteryAccumulator do
+    it "counts the number of instances where participants have useless runes and masteries equipped" do
+      expected_useless_rune_counts = {
+          "Greater Glyph of Cooldown Reduction" => 1,
+          "Greater Glyph of Mana Regeneration" => 1,
+          "Greater Glyph of Scaling Cooldown Reduction" => 1,
+          "Greater Seal of Mana Regeneration" => 1
+      }
+
+      expected_useless_mastery_counts = {
+          "Sorcery" => 20,
+          "Summoner's Insight" => 3
+      }
+
+      [["USELESS_RUNE", expected_useless_rune_counts],
+       ["USELESS_MASTERY", expected_useless_mastery_counts]].each do |count_type, expected_rune_mastery_counts|
+        counts = Hash[
+            EntityCount.where(stat: @stat, count_type: count_type).eager_load(:entity).map do |ec|
+              [ec.entity.name, ec.value]
+            end
+        ]
+
+        expect(counts).to eq(expected_rune_mastery_counts)
+      end
+    end
+  end
+
   after(:example) do
     @stat.destroy!
   end

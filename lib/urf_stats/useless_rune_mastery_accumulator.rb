@@ -48,18 +48,68 @@ module UrfStats
 
     def initialize(parent)
       super(parent)
+
+      @useless_rune_counts = {}
+      @useless_rune_counts.default = 0
+
+      @useless_mastery_counts = {}
+      @useless_mastery_counts.default = 0
     end
 
     def accumulate(match)
-      # Implement me!
+      match_json = match.content
 
-      super
+      match_json["participants"].each do |participant|
+        (participant["runes"] || []).each do |rune|
+          rune_id = rune["runeId"]
+
+          @useless_rune_counts[rune_id] += 1 \
+            if USELESS_RUNE_IDS.include?(rune_id)
+        end
+
+        (participant["masteries"] || []).each do |mastery|
+          mastery_id = mastery["masteryId"]
+
+          @useless_mastery_counts[mastery_id] += 1 \
+            if USELESS_MASTERY_IDS.include?(mastery_id)
+        end
+      end
     end
 
     def save!
-      # Implement me!
+      stat = parent.stat
 
-      super
+      runes_by_rune_id = Hash[
+          Riot::Api::Rune.all.map do |rune|
+            [rune.entity_id, rune]
+          end
+      ]
+
+      masteries_by_mastery_id = Hash[
+          Riot::Api::Mastery.all.map do |mastery|
+            [mastery.entity_id, mastery]
+          end
+      ]
+
+      @useless_rune_counts.each do |rune_id, count|
+        useless_rune_count = EntityCount.new(
+            stat: stat,
+            entity: runes_by_rune_id[rune_id],
+            count_type: "USELESS_RUNE",
+            value: count
+        )
+        useless_rune_count.save!
+      end
+
+      @useless_mastery_counts.each do |mastery_id, count|
+        useless_mastery_count = EntityCount.new(
+            stat: stat,
+            entity: masteries_by_mastery_id[mastery_id],
+            count_type: "USELESS_MASTERY",
+            value: count
+        )
+        useless_mastery_count.save!
+      end
     end
   end
 end
