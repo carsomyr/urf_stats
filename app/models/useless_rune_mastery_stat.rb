@@ -14,11 +14,12 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-Rails.application.routes.draw do
-  namespace :api, constraints: {format: :json} do
-    resources :item_stats
-    resources :useless_rune_mastery_stats
-  end
+class UselessRuneMasteryStat
+  # Because this is a synthetic model and doesn't inherit from `ActiveRecord::Base`.
+  alias_method :read_attribute_for_serialization, :send
 
-  root to: "application#index"
+  attr_accessor :id
+  attr_accessor :content
+  attr_accessor :n_occurrences
+  attr_accessor :n_participants
 end

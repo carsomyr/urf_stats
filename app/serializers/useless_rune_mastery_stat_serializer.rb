@@ -14,11 +14,10 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-Rails.application.routes.draw do
-  namespace :api, constraints: {format: :json} do
-    resources :item_stats
-    resources :useless_rune_mastery_stats
-  end
+class UselessRuneMasteryStatSerializer < ActiveModel::Serializer
+  has_one :content, polymorphic: true, key: "content"
 
-  root to: "application#index"
+  attributes :id
+  attributes :n_occurrences
+  attributes :n_participants
 end
