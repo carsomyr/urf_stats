@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 15) do
+ActiveRecord::Schema.define(version: 16) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 15) do
   add_index "entity_integers", ["entity_id"], name: "index_entity_integers_on_entity_id", using: :btree
   add_index "entity_integers", ["stat_id", "entity_id", "value_type"], name: "index_entity_counts_uniqueness", unique: true, using: :btree
   add_index "entity_integers", ["stat_id"], name: "index_entity_integers_on_stat_id", using: :btree
+  add_index "entity_integers", ["value_type"], name: "index_entity_integers_on_value_type", using: :btree
 
   create_table "item_purchase_counts", force: :cascade do |t|
     t.integer "stat_id",      null: false
@@ -80,6 +81,7 @@ ActiveRecord::Schema.define(version: 15) do
 
   add_index "riot_api_static_entities", ["entity_id", "type"], name: "index_riot_api_static_entities_on_entity_id_and_type", unique: true, using: :btree
   add_index "riot_api_static_entities", ["entity_id"], name: "index_riot_api_static_entities_on_entity_id", using: :btree
+  add_index "riot_api_static_entities", ["type"], name: "index_riot_api_static_entities_on_type", using: :btree
 
   create_table "stats", force: :cascade do |t|
     t.string   "region",                  limit: 4,             null: false
