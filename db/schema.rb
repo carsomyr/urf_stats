@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 16) do
+ActiveRecord::Schema.define(version: 17) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 16) do
     t.integer "value",        null: false
   end
 
+  add_index "item_purchase_counts", ["item_id", "purchaser_id"], name: "index_item_purchase_counts_on_item_id_and_purchaser_id", using: :btree
   add_index "item_purchase_counts", ["item_id"], name: "index_item_purchase_counts_on_item_id", using: :btree
   add_index "item_purchase_counts", ["purchaser_id"], name: "index_item_purchase_counts_on_purchaser_id", using: :btree
   add_index "item_purchase_counts", ["stat_id", "purchaser_id", "item_id"], name: "index_item_purchase_counts_uniqueness", unique: true, using: :btree
@@ -55,6 +56,7 @@ ActiveRecord::Schema.define(version: 16) do
   end
 
   add_index "kill_assist_counts", ["assister_id"], name: "index_kill_assist_counts_on_assister_id", using: :btree
+  add_index "kill_assist_counts", ["killer_id", "assister_id"], name: "index_kill_assist_counts_on_killer_id_and_assister_id", using: :btree
   add_index "kill_assist_counts", ["killer_id"], name: "index_kill_assist_counts_on_killer_id", using: :btree
   add_index "kill_assist_counts", ["stat_id", "killer_id", "assister_id"], name: "index_kill_assists_counts_uniqueness", unique: true, using: :btree
   add_index "kill_assist_counts", ["stat_id"], name: "index_kill_assist_counts_on_stat_id", using: :btree
