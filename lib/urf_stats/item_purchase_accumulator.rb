@@ -139,7 +139,7 @@ module UrfStats
           if !first_purchase_event
 
         item_id = first_purchase_event["itemId"]
-        timestamp = first_purchase_event["timestamp"]
+        timestamp = first_purchase_event["timestamp"] / 1000
         total_time_first_item, n_purchases = *@total_time_first_items[item_id]
 
         @total_time_first_items[item_id] = [total_time_first_item + timestamp, n_purchases + 1]
@@ -175,15 +175,22 @@ module UrfStats
 
       @total_time_first_items.each do |item_id, tuple|
         total_time_first_item, n_purchases = *tuple
-        average_time_first_item = total_time_first_item / n_purchases
 
-        first_item_count = EntityInteger.new(
+        ei = EntityInteger.new(
             stat: stat,
             entity: items_by_item_id[item_id],
-            value_type: "AVERAGE_TIME_FIRST_ITEM",
-            value: average_time_first_item
+            value_type: "TOTAL_TIME_FIRST_ITEM",
+            value: total_time_first_item
         )
-        first_item_count.save!
+        ei.save!
+
+        ei = EntityInteger.new(
+            stat: stat,
+            entity: items_by_item_id[item_id],
+            value_type: "N_FIRST_ITEM_PURCHASES",
+            value: n_purchases
+        )
+        ei.save!
       end
     end
   end

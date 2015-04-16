@@ -202,29 +202,45 @@ describe UrfStats::Accumulator do
       expect(counts).to include(*sampled_counts)
 
       expected_average_times_first_item = {
-          "Blade of the Ruined King" => 520845,
-          "Enchantment: Magus" => 448358,
-          "Enchantment: Warrior" => 319307,
-          "Hextech Gunblade" => 946908,
-          "Iceborn Gauntlet" => 536276,
-          "Infinity Edge" => 555426,
-          "Liandry's Torment" => 658586,
-          "Lich Bane" => 555580,
-          "Luden's Echo" => 728558,
-          "Maw of Malmortius" => 759457,
-          "Nashor's Tooth" => 503303,
-          "Rabadon's Deathcap" => 768094,
-          "Rod of Ages" => 427082,
-          "Trinity Force" => 540856,
-          "Void Staff" => 884100,
-          "Will of the Ancients" => 419037,
-          "Youmuu's Ghostblade" => 639428,
-          "Zhonya's Hourglass" => 609478
+          "Blade of the Ruined King" => 520,
+          "Enchantment: Magus" => 448,
+          "Enchantment: Warrior" => 319,
+          "Hextech Gunblade" => 946,
+          "Iceborn Gauntlet" => 536,
+          "Infinity Edge" => 555,
+          "Liandry's Torment" => 658,
+          "Lich Bane" => 555,
+          "Luden's Echo" => 728,
+          "Maw of Malmortius" => 759,
+          "Nashor's Tooth" => 503,
+          "Rabadon's Deathcap" => 767,
+          "Rod of Ages" => 427,
+          "Trinity Force" => 540,
+          "Void Staff" => 884,
+          "Will of the Ancients" => 418,
+          "Youmuu's Ghostblade" => 639,
+          "Zhonya's Hourglass" => 608
       }
 
+      eis = EntityInteger.arel_table
+      eis_again = EntityInteger.arel_table.alias("entity_integers_self")
+
+      eis_to_eis_again = eis.create_join(
+          eis_again,
+          eis.create_on((eis[:stat_id].eq eis_again[:stat_id]).and(eis[:entity_id].eq eis_again[:entity_id]))
+      )
+
       counts = Hash[
-          EntityInteger.where(stat: @stat, value_type: "AVERAGE_TIME_FIRST_ITEM").eager_load(:entity).map do |ei|
-            [ei.entity.name, ei.value]
+          EntityInteger
+              .select(eis[Arel.star], (eis_again[:value].as "n_purchases"))
+              .joins(eis_to_eis_again)
+              .where(
+                  (eis[:stat_id].eq @stat.id)
+                      .and(eis[:value_type].eq "TOTAL_TIME_FIRST_ITEM")
+                      .and(eis_again[:value_type].eq "N_FIRST_ITEM_PURCHASES")
+              )
+              .preload(:entity).map do |ei|
+            [ei.entity.name, ei.value / ei.n_purchases]
           end
       ]
 
