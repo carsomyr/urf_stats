@@ -1,0 +1,11 @@
+---
+base: &base
+  :access_key_id: "00000000000000000000"
+  :secret_access_key: "0000000000000000000000000000000000000000"
+  :region: "us-east-1"
+
+development: *base
+
+production: *base
+
+test: *base
