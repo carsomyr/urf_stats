@@ -14,11 +14,11 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-class EntityCount < ActiveRecord::Base
+class EntityInteger < ActiveRecord::Base
   belongs_to :stat
   belongs_to :entity, class_name: "Riot::Api::StaticEntity"
 
-  validates :stat, presence: true, uniqueness: {scope: [:entity_id, :count_type]}
-  validates :count_type, presence: true
+  validates :stat, presence: true, uniqueness: {scope: [:entity_id, :value_type]}
+  validates :value_type, presence: true
   validates :value, presence: true
 end

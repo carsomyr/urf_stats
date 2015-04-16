@@ -177,10 +177,10 @@ module UrfStats
         total_time_first_item, n_purchases = *tuple
         average_time_first_item = total_time_first_item / n_purchases
 
-        first_item_count = EntityCount.new(
+        first_item_count = EntityInteger.new(
             stat: stat,
             entity: items_by_item_id[item_id],
-            count_type: "AVERAGE_TIME_FIRST_ITEM",
+            value_type: "AVERAGE_TIME_FIRST_ITEM",
             value: average_time_first_item
         )
         first_item_count.save!

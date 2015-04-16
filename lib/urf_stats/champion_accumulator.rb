@@ -125,28 +125,28 @@ module UrfStats
        [@champion_win_counts, "CHAMPION_WIN"],
        [@champion_kill_counts, "CHAMPION_KILL"],
        [@champion_death_counts, "CHAMPION_DEATH"],
-       [@champion_assist_counts, "CHAMPION_ASSIST"]].each do |champion_counts, count_type|
+       [@champion_assist_counts, "CHAMPION_ASSIST"]].each do |champion_counts, value_type|
         champion_counts.each do |champion_id, count|
-          ec = EntityCount.new(
+          ei = EntityInteger.new(
               stat: stat,
               entity: champions_by_champion_id[champion_id],
-              count_type: count_type,
+              value_type: value_type,
               value: count
           )
-          ec.save!
+          ei.save!
         end
       end
 
       @lane_champion_counts.each do |tuple, count|
         lane_type, champion_id = *tuple
 
-        ec = EntityCount.new(
+        ei = EntityInteger.new(
             stat: stat,
             entity: champions_by_champion_id[champion_id],
-            count_type: "CHAMPION_LANE_#{lane_type.to_s.upcase}",
+            value_type: "CHAMPION_LANE_#{lane_type.to_s.upcase}",
             value: count
         )
-        ec.save!
+        ei.save!
       end
 
       @kill_assist_counts.each do |tuple, count|

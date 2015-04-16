@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 14) do
+ActiveRecord::Schema.define(version: 15) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,16 +23,16 @@ ActiveRecord::Schema.define(version: 14) do
 
   add_index "challenge_bucket_counters", ["region"], name: "index_challenge_bucket_counters_on_region", unique: true, using: :btree
 
-  create_table "entity_counts", force: :cascade do |t|
-    t.integer "stat_id",    null: false
-    t.integer "entity_id",  null: false
-    t.string  "count_type", null: false
-    t.integer "value",      null: false
+  create_table "entity_integers", force: :cascade do |t|
+    t.integer "stat_id",              null: false
+    t.integer "entity_id",            null: false
+    t.string  "value_type",           null: false
+    t.integer "value",      limit: 8, null: false
   end
 
-  add_index "entity_counts", ["entity_id"], name: "index_entity_counts_on_entity_id", using: :btree
-  add_index "entity_counts", ["stat_id", "entity_id", "count_type"], name: "index_entity_counts_uniqueness", unique: true, using: :btree
-  add_index "entity_counts", ["stat_id"], name: "index_entity_counts_on_stat_id", using: :btree
+  add_index "entity_integers", ["entity_id"], name: "index_entity_integers_on_entity_id", using: :btree
+  add_index "entity_integers", ["stat_id", "entity_id", "value_type"], name: "index_entity_counts_uniqueness", unique: true, using: :btree
+  add_index "entity_integers", ["stat_id"], name: "index_entity_integers_on_stat_id", using: :btree
 
   create_table "item_purchase_counts", force: :cascade do |t|
     t.integer "stat_id",      null: false
@@ -106,8 +106,8 @@ ActiveRecord::Schema.define(version: 14) do
   add_index "stats", ["region"], name: "index_stats_on_region", using: :btree
   add_index "stats", ["start_time"], name: "index_stats_on_start_time", using: :btree
 
-  add_foreign_key "entity_counts", "riot_api_static_entities", column: "entity_id", on_delete: :cascade
-  add_foreign_key "entity_counts", "stats", on_delete: :cascade
+  add_foreign_key "entity_integers", "riot_api_static_entities", column: "entity_id", on_delete: :cascade
+  add_foreign_key "entity_integers", "stats", on_delete: :cascade
   add_foreign_key "item_purchase_counts", "riot_api_static_entities", column: "item_id", on_delete: :cascade
   add_foreign_key "item_purchase_counts", "riot_api_static_entities", column: "purchaser_id", on_delete: :cascade
   add_foreign_key "item_purchase_counts", "stats", on_delete: :cascade

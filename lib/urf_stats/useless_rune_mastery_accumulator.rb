@@ -92,20 +92,20 @@ module UrfStats
       ]
 
       @useless_rune_counts.each do |rune_id, count|
-        useless_rune_count = EntityCount.new(
+        useless_rune_count = EntityInteger.new(
             stat: stat,
             entity: runes_by_rune_id[rune_id],
-            count_type: "USELESS_RUNE",
+            value_type: "USELESS_RUNE",
             value: count
         )
         useless_rune_count.save!
       end
 
       @useless_mastery_counts.each do |mastery_id, count|
-        useless_mastery_count = EntityCount.new(
+        useless_mastery_count = EntityInteger.new(
             stat: stat,
             entity: masteries_by_mastery_id[mastery_id],
-            count_type: "USELESS_MASTERY",
+            value_type: "USELESS_MASTERY",
             value: count
         )
         useless_mastery_count.save!

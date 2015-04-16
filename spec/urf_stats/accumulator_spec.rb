@@ -105,10 +105,10 @@ describe UrfStats::Accumulator do
        ["CHAMPION_WIN", expected_win_counts],
        ["CHAMPION_KILL", expected_kill_counts],
        ["CHAMPION_DEATH", expected_death_counts],
-       ["CHAMPION_ASSIST", expected_assist_counts]].each do |count_type, expected_champion_counts|
+       ["CHAMPION_ASSIST", expected_assist_counts]].each do |value_type, expected_champion_counts|
         counts = Hash[
-            EntityCount.where(stat: @stat, count_type: count_type).eager_load(:entity).map do |ec|
-              [ec.entity.name, ec.value]
+            EntityInteger.where(stat: @stat, value_type: value_type).eager_load(:entity).map do |ei|
+              [ei.entity.name, ei.value]
             end
         ]
 
@@ -128,9 +128,9 @@ describe UrfStats::Accumulator do
         "Ezreal" => 2, "Hecarim" => 1, "Heimerdinger" => 1, "Leona" => 1, "Lux" => 1, "Sivir" => 1, "Syndra" => 1,
         "Teemo" => 1, "Vayne" => 1, "Vel'Koz" => 1]].each do |lane_type, expected_lane_counts|
         counts = Hash[
-            EntityCount.where(stat: @stat, count_type: "CHAMPION_LANE_#{lane_type.to_s.upcase}")
-                .eager_load(:entity).map do |ec|
-              [ec.entity.name, ec.value]
+            EntityInteger.where(stat: @stat, value_type: "CHAMPION_LANE_#{lane_type.to_s.upcase}")
+                .eager_load(:entity).map do |ei|
+              [ei.entity.name, ei.value]
             end
         ]
 
@@ -223,8 +223,8 @@ describe UrfStats::Accumulator do
       }
 
       counts = Hash[
-          EntityCount.where(stat: @stat, count_type: "AVERAGE_TIME_FIRST_ITEM").eager_load(:entity).map do |ec|
-            [ec.entity.name, ec.value]
+          EntityInteger.where(stat: @stat, value_type: "AVERAGE_TIME_FIRST_ITEM").eager_load(:entity).map do |ei|
+            [ei.entity.name, ei.value]
           end
       ]
 
@@ -247,10 +247,10 @@ describe UrfStats::Accumulator do
       }
 
       [["USELESS_RUNE", expected_useless_rune_counts],
-       ["USELESS_MASTERY", expected_useless_mastery_counts]].each do |count_type, expected_rune_mastery_counts|
+       ["USELESS_MASTERY", expected_useless_mastery_counts]].each do |value_type, expected_rune_mastery_counts|
         counts = Hash[
-            EntityCount.where(stat: @stat, count_type: count_type).eager_load(:entity).map do |ec|
-              [ec.entity.name, ec.value]
+            EntityInteger.where(stat: @stat, value_type: value_type).eager_load(:entity).map do |ei|
+              [ei.entity.name, ei.value]
             end
         ]
 
