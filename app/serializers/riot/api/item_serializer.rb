@@ -14,10 +14,9 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-Rails.application.routes.draw do
-  namespace :api, constraints: {format: :json} do
-    resources :item_stats
+module Riot
+  module Api
+    class ItemSerializer < StaticEntitySerializer
+    end
   end
-
-  root to: "application#index"
 end

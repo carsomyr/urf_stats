@@ -14,10 +14,15 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-Rails.application.routes.draw do
-  namespace :api, constraints: {format: :json} do
-    resources :item_stats
-  end
+class ItemStat
+  # Because this is a synthetic model and doesn't inherit from `ActiveRecord::Base`.
+  alias_method :read_attribute_for_serialization, :send
 
-  root to: "application#index"
+  attr_accessor :id
+  attr_accessor :n_first_purchases
+  attr_accessor :total_first_purchases
+  attr_accessor :n_purchases
+  attr_accessor :total_purchases
+  attr_accessor :item
+  attr_accessor :top_purchasers
 end

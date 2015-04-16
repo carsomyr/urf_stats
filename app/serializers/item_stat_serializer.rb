@@ -14,10 +14,13 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-Rails.application.routes.draw do
-  namespace :api, constraints: {format: :json} do
-    resources :item_stats
-  end
+class ItemStatSerializer < ActiveModel::Serializer
+  has_one :item
+  has_many :top_purchasers, root: "champions"
 
-  root to: "application#index"
+  attributes :id
+  attributes :n_first_purchases
+  attributes :total_first_purchases
+  attributes :n_purchases
+  attributes :total_purchases
 end
