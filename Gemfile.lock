@@ -72,14 +72,14 @@ GEM
       builder
       multi_json
     arel (6.0.0)
-    aws-sdk (2.0.34)
-      aws-sdk-resources (= 2.0.34)
-    aws-sdk-core (2.0.34)
+    aws-sdk (2.0.39)
+      aws-sdk-resources (= 2.0.39)
+    aws-sdk-core (2.0.39)
       builder (~> 3.0)
       jmespath (~> 1.0)
       multi_json (~> 1.0)
-    aws-sdk-resources (2.0.34)
-      aws-sdk-core (= 2.0.34)
+    aws-sdk-resources (2.0.39)
+      aws-sdk-core (= 2.0.39)
     barber (0.9.0)
       ember-source (>= 1.0, < 2)
       execjs (>= 1.2, < 3)
@@ -108,13 +108,13 @@ GEM
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
-    coffee-script (2.3.0)
+    coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.9.1)
+    coffee-script-source (1.9.1.1)
     colorize (0.7.5)
     commonjs (0.2.7)
-    connection_pool (2.1.3)
+    connection_pool (2.2.0)
     daemons (1.2.2)
     devise (3.4.1)
       bcrypt (~> 3.0)
@@ -126,27 +126,27 @@ GEM
     diff-lcs (1.2.5)
     ember-data-source (1.0.0.beta.16.1)
       ember-source (~> 1.8)
-    ember-handlebars-template (0.1.2)
+    ember-handlebars-template (0.1.5)
       barber (>= 0.9.0)
       sprockets (>= 2.1, < 3.1)
-    ember-rails (0.18.1)
+    ember-rails (0.18.2)
       active_model_serializers
       ember-data-source (>= 1.0.0.beta.5)
       ember-handlebars-template (>= 0.1.1, < 1.0)
       ember-source (>= 1.1.0)
       jquery-rails (>= 1.0.17)
       railties (>= 3.1)
-    ember-source (1.11.0.1)
+    ember-source (1.11.1)
     erubis (2.7.0)
     eventmachine (1.0.7)
-    execjs (2.4.0)
+    execjs (2.5.2)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
     font-awesome-rails (4.3.0.0)
       railties (>= 3.2, < 5.0)
-    globalid (0.3.3)
+    globalid (0.3.5)
       activesupport (>= 4.1.0)
     haml (4.0.6)
       tilt
@@ -156,7 +156,6 @@ GEM
       haml (>= 4.0.6, < 5.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
-    handlebars-source (3.0.0)
     hike (1.2.3)
     hitimes (1.2.2)
     html2haml (2.0.0)
@@ -176,9 +175,11 @@ GEM
     kgio (2.9.3)
     less (2.6.0)
       commonjs (~> 0.2.7)
-    less-rails (2.6.0)
-      actionpack (>= 3.1)
+    less-rails (2.7.0)
+      actionpack (>= 4.0)
       less (~> 2.6.0)
+      sprockets (> 2, < 4)
+      tilt
     libv8 (3.16.14.7)
     loofah (2.0.1)
       nokogiri (>= 1.5.9)
@@ -186,7 +187,7 @@ GEM
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
     mini_portile (0.6.2)
-    minitest (5.5.1)
+    minitest (5.6.0)
     multi_json (1.11.0)
     multipart-post (2.0.0)
     net-scp (1.2.1)
@@ -243,9 +244,9 @@ GEM
     ref (1.0.5)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    rspec-core (3.2.2)
+    rspec-core (3.2.3)
       rspec-support (~> 3.2.0)
-    rspec-expectations (3.2.0)
+    rspec-expectations (3.2.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.2.0)
     rspec-mocks (3.2.1)
@@ -260,7 +261,7 @@ GEM
       rspec-mocks (~> 3.2.0)
       rspec-support (~> 3.2.0)
     rspec-support (3.2.2)
-    ruby_parser (3.6.5)
+    ruby_parser (3.6.6)
       sexp_processor (~> 4.1)
     sass (3.4.13)
     sass-rails (5.0.3)
@@ -294,7 +295,7 @@ GEM
       colorize (>= 0.7.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    therubyracer (0.12.1)
+    therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
     thin (1.6.3)
@@ -340,7 +341,6 @@ DEPENDENCIES
   font-awesome-rails
   haml
   haml-rails
-  handlebars-source
   jquery-rails
   less-rails
   paperclip
@@ -353,6 +353,7 @@ DEPENDENCIES
   sass-rails
   sidekiq (>= 3.3.3)
   sidetiq
+  sprockets (< 3.0.0)
   sqlite3
   therubyracer
   thin
