@@ -14,25 +14,31 @@
  * the License.
  *
  *= require_self
- *= depend_on vertical_navbar
  */
-@import "twitter/bootstrap/bootstrap";
-@import "vertical_navbar";
+@import "twitter/bootstrap/variables";
 
-html {
-  height: 100%;
+@sidebar-width: 200px;
 
-  > body {
-    height: 100%;
-
-    > .ember-view {
-      height: 100%;
-    }
-  }
+.navbar {
+  margin-bottom: 0px;
 }
 
-.page-content {
-  @media (min-width: @grid-float-breakpoint) {
-    margin-left: @sidebar-width;
+@media (min-width: @grid-float-breakpoint) {
+  .navbar-collapse {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .navbar {
+    position: fixed;
+    height: 100%;
+    width: @sidebar-width;
+    border-radius: 0px;
+  }
+
+  .navbar-nav,
+  .navbar-nav > li,
+  .navbar-header {
+    float: none !important;
   }
 }

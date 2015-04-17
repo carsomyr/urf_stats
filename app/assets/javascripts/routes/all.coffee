@@ -17,8 +17,33 @@
 ((factory) ->
   if typeof define is "function" and define.amd?
     define ["ember",
-            "application-base"], factory
+            "application-base",
+            "./index_route",
+            "./introduction_route",
+            "./stats_route",
+            "./champion_stats_route",
+            "./champion_duo_stats_route",
+            "./champion_lane_stats_route",
+            "./item_stats_route",
+            "./useless_rune_mastery_stats_route"], factory
 ).call(@, (Ember, #
-           app) ->
+           app, #
+           IndexRoute, #
+           IntroductionRoute, #
+           StatsRoute, #
+           ChampionStatsRoute, #
+           ChampionDuoStatsRoute, #
+           ChampionLaneStatsRoute, #
+           ItemStatsRoute, #
+           UselessRuneMasteryStatsRoute) ->
+  app.Router.map ->
+    @route("introduction")
+    @resource("stats")
+    @resource("champion_stats")
+    @resource("champion_duo_stats")
+    @resource("champion_lane_stats")
+    @resource("item_stats")
+    @resource("useless_rune_mastery_stats")
+
   app
 )

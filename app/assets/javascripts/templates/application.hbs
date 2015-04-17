@@ -1,0 +1,26 @@
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#stats-navbar-collapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="stats-navbar-collapsed">
+        <ul class="nav navbar-nav">
+            <li>{{#link-to "introduction"}}Introduction{{/link-to}}</li>
+            <li>{{#link-to "stats"}}Match Stats{{/link-to}}</li>
+            <li>{{#link-to "champion_stats"}}Champion Stats{{/link-to}}</li>
+            <li>{{#link-to "champion_duo_stats"}}Champion Duo Stats{{/link-to}}</li>
+            <li>{{#link-to "champion_lane_stats"}}Champion Lane Stats{{/link-to}}</li>
+            <li>{{#link-to "item_stats"}}Item Stats{{/link-to}}</li>
+            <li>{{#link-to "useless_rune_mastery_stats"}}Rune/Mastery Stats{{/link-to}}</li>
+        </ul>
+    </div>
+</nav>
+
+<div class="page-content">
+    {{outlet}}
+</div>

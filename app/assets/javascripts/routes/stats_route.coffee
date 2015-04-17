@@ -17,20 +17,21 @@
 ((factory) ->
   if typeof define is "function" and define.amd?
     define ["ember",
-            "application-base",
-            "./stats_controller",
-            "./champion_stats_controller",
-            "./champion_duo_stats_controller",
-            "./champion_lane_stats_controller",
-            "./item_stats_controller",
-            "./useless_rune_mastery_stats_controller"], factory
+            "application-base"], factory
 ).call(@, (Ember, #
-           app, #
-           StatsController, #
-           ChampionStatsController, #
-           ChampionDuoStatsController, #
-           ChampionLaneStatsController, #
-           ItemStatsController, #
-           UselessRuneMasteryStatsController) ->
-  app
+           app) ->
+  app.StatsRoute = Ember.Route.extend
+    queryParams:
+      region:
+        refreshModel: true
+      start_time:
+        refreshModel: true
+
+    model: (params) ->
+      @store.find("stat", params)
+
+    setupController: (controller, model) ->
+      controller.set("model", model.objectAt(0))
+
+  app.StatsRoute
 )
