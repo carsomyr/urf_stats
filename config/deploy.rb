@@ -26,8 +26,8 @@ set :rbenv_ruby, ""
 set :rbenv_path, "/usr/lib/rbenv"
 
 # The application.
-set :deploy_to, "/home/ubuntu/apps/scalient"
-set :repo_url, "git@github.com:carsomyr/urf_stats-private"
+set :deploy_to, "/home/ubuntu/apps/urfstats"
+set :repo_url, "git@github.com:carsomyr/urf_stats"
 set :branch, "master"
 set :rails_env, "production"
 
