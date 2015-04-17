@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <div class="row">
+        <h2 class="page-item">Champion Duos</h2>
+
+        <div class="data-table page-item">
+            <div class="data-header">
+                <div class="data-cell" style="width: 50%;">Champion Duo</div>
+                <div class="data-cell" style="width: 50%;"># Victims / # Games</div>
+            </div>
+            <div class="data-body">
+                {{#each championDuoStat in controller.model}}
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Champion Duo">
+                            {{#each champion in championDuoStat.champions}}
+                                {{champion.name}}
+                            {{/each}}
+                        </div>
+                        <div class="data-cell" data-label="# Victims / # Games">
+                            {{championDuoStat.nKillAssists}} / {{championDuoStat.nMatches}}
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

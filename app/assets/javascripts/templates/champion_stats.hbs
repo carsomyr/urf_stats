@@ -1,0 +1,36 @@
+<div class="container-fluid">
+    <div class="row">
+        <h2 class="page-item">Champions</h2>
+
+        <div class="data-table page-item">
+            <div class="data-header">
+                <div class="data-cell" style="width: 20%;">Champion</div>
+                <div class="data-cell" style="width: 20%;"># Wins / # Picks</div>
+                <div class="data-cell" style="width: 20%;">Picks</div>
+                <div class="data-cell" style="width: 20%;">Bans</div>
+                <div class="data-cell" style="width: 20%;"># Kills / # Deaths</div>
+            </div>
+            <div class="data-body">
+                {{#each championStat in controller.model}}
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Champion">
+                            {{championStat.champion.name}}
+                        </div>
+                        <div class="data-cell" data-label="# Wins / # Picks">
+                            {{championStat.nWins}} / {{championStat.nPicks}}
+                        </div>
+                        <div class="data-cell" data-label="Picks">
+                            {{championStat.nPicks}} / {{championStat.nMatches}}
+                        </div>
+                        <div class="data-cell" data-label="Bans">
+                            {{championStat.nBans}} / {{championStat.nMatches}}
+                        </div>
+                        <div class="data-cell" data-label="# Kills / # Deaths">
+                            {{championStat.nKills}} / {{championStat.nDeaths}}
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

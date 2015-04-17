@@ -1,0 +1,24 @@
+<div class="container-fluid">
+    <div class="row">
+        <h2 class="page-item">Useless Runes and Masteries</h2>
+
+        <div class="data-table page-item">
+            <div class="data-header">
+                <div class="data-cell" style="width: 50%;">Rune or Mastery</div>
+                <div class="data-cell" style="width: 50%;"># Occurrences / # Players</div>
+            </div>
+            <div class="data-body">
+                {{#each uselessRuneMasteryStat in controller.model}}
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Rune or Mastery">
+                            {{uselessRuneMasteryStat.content.name}}
+                        </div>
+                        <div class="data-cell" data-label="# Occurrences / # Players">
+                            {{uselessRuneMasteryStat.nOccurrences}} / {{uselessRuneMasteryStat.nParticipants}}
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

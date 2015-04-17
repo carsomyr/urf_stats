@@ -1,0 +1,110 @@
+<div class="container-fluid">
+    <div class="row">
+        <h2 class="page-item">Matches</h2>
+
+        <div class="data-table page-item">
+            <div class="data-header">
+                <div class="data-cell" style="width: 50%;">Key</div>
+                <div class="data-cell" style="width: 50%;">Value</div>
+            </div>
+            <div class="data-body">
+                <div class="data-row">
+                    <div class="data-cell" data-label="Key">
+                        # Games
+                    </div>
+                    <div class="data-cell" data-label="Value">
+                        {{controller.model.nMatches}}
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-cell" data-label="Key">
+                        Total Duration / # Games
+                    </div>
+                    <div class="data-cell" data-label="Value">
+                        {{controller.model.totalDuration}} / {{controller.model.nMatches}}
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-cell" data-label="Key">
+                        # Kills / # Games
+                    </div>
+                    <div class="data-cell" data-label="Value">
+                        {{controller.model.totalKills}} / {{controller.model.nMatches}}
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-cell" data-label="Key">
+                        # Assists / # Games
+                    </div>
+                    <div class="data-cell" data-label="Value">
+                        {{controller.model.totalAssists}} / {{controller.model.nMatches}}
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-cell" data-label="Key">
+                        Total Time to First Blood / # Games
+                    </div>
+                    <div class="data-cell" data-label="Value">
+                        {{controller.model.totalTimeFirstBlood}} / {{controller.model.nFirstBloodGames}}
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-cell" data-label="Key">
+                        Total Gold / # Games
+                    </div>
+                    <div class="data-cell" data-label="Value">
+                        {{controller.model.totalGold}} / {{controller.model.nMatches}}
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-cell" data-label="Key">
+                        # Minions Killed / # Games
+                    </div>
+                    <div class="data-cell" data-label="Value">
+                        {{controller.model.totalMinionsKilled}} / {{controller.model.nMatches}}
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-cell" data-label="Key">
+                        Total Champion Level / # Games
+                    </div>
+                    <div class="data-cell" data-label="Value">
+                        {{controller.model.totalChampionLevel}} / {{controller.model.nMatches}}
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-cell" data-label="Key">
+                        # Dragons / # Games
+                    </div>
+                    <div class="data-cell" data-label="Value">
+                        {{controller.model.totalDragons}} / {{controller.model.nFirstDragonGames}}
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-cell" data-label="Key">
+                        Total Time to First Dragon / # Games
+                    </div>
+                    <div class="data-cell" data-label="Value">
+                        {{controller.model.totalTimeFirstDragon}} / {{controller.model.nFirstDragonGames}}
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-cell" data-label="Key">
+                        # Barons / # Games
+                    </div>
+                    <div class="data-cell" data-label="Value">
+                        {{controller.model.totalBarons}} / {{controller.model.nFirstBaronGames}}
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-cell" data-label="Key">
+                        Total Time to First Baron / # Games
+                    </div>
+                    <div class="data-cell" data-label="Value">
+                        {{controller.model.totalTimeFirstBaron}} / {{controller.model.nFirstBaronGames}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

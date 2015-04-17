@@ -14,9 +14,11 @@
  * the License.
  *
  *= require_self
+ *= depend_on data_table
  *= depend_on vertical_navbar
  */
 @import "twitter/bootstrap/bootstrap";
+@import "data_table";
 @import "vertical_navbar";
 
 html {
@@ -35,4 +37,8 @@ html {
   @media (min-width: @grid-float-breakpoint) {
     margin-left: @sidebar-width;
   }
+}
+
+.page-item {
+  padding: 15px 15px 0px 15px;
 }
