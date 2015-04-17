@@ -17,32 +17,22 @@
 ((factory) ->
   if typeof define is "function" and define.amd?
     define ["ember",
+            "ember-data",
             "application-base",
-            "./champion",
-            "./champion_duo_stat",
-            "./champion_lane_stat",
-            "./champion_stat",
-            "./item",
-            "./item_stat",
-            "./mastery",
-            "./polymorphic",
-            "./rune",
-            "./stat",
-            "./static_entity",
-            "./useless_rune_mastery_stat"], factory
+            "./champion"], factory
 ).call(@, (Ember, #
+           DS, #
            app, #
-           Champion, #
-           ChampionDuoStat, #
-           ChampionLaneStat, #
-           ChampionStat, #
-           Item, #
-           ItemStat, #
-           Mastery, #
-           Polymorphic, #
-           Rune, #
-           Stat, #
-           StaticEntity, #
-           UselessRuneMasteryStat) ->
-  app
+           Champion) ->
+  app.ChampionStat = DS.Model.extend
+    champion: DS.belongsTo("champion")
+    nKills: DS.attr("number")
+    nDeaths: DS.attr("number")
+    nAssists: DS.attr("number")
+    nPicks: DS.attr("number")
+    nBans: DS.attr("number")
+    nWins: DS.attr("number")
+    nMatches: DS.attr("number")
+
+  app.ChampionStat
 )
