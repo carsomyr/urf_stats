@@ -14,14 +14,9 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-Rails.application.routes.draw do
-  namespace :api, constraints: {format: :json} do
-    resources :champion_stats
-    resources :champion_duo_stats
-    resources :champion_lane_stats
-    resources :item_stats
-    resources :useless_rune_mastery_stats
-  end
+class ChampionLaneStatSerializer < ActiveModel::Serializer
+  has_many :champions
 
-  root to: "application#index"
+  attributes :id
+  attributes :lane_type
 end

@@ -14,14 +14,11 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-Rails.application.routes.draw do
-  namespace :api, constraints: {format: :json} do
-    resources :champion_stats
-    resources :champion_duo_stats
-    resources :champion_lane_stats
-    resources :item_stats
-    resources :useless_rune_mastery_stats
-  end
+class ChampionLaneStat
+  # Because this is a synthetic model and doesn't inherit from `ActiveRecord::Base`.
+  alias_method :read_attribute_for_serialization, :send
 
-  root to: "application#index"
+  attr_accessor :id
+  attr_accessor :champions
+  attr_accessor :lane_type
 end
