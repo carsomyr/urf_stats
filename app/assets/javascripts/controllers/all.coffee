@@ -23,7 +23,8 @@
             "./champion_duo_stats_controller",
             "./champion_lane_stats_controller",
             "./item_stats_controller",
-            "./useless_rune_mastery_stats_controller"], factory
+            "./useless_rune_mastery_stats_controller",
+            "./introduction_controller"], factory
 ).call(@, (Ember, #
            app, #
            StatsController, #
@@ -31,6 +32,7 @@
            ChampionDuoStatsController, #
            ChampionLaneStatsController, #
            ItemStatsController, #
-           UselessRuneMasteryStatsController) ->
+           UselessRuneMasteryStatsController, #
+           IntroductionController) ->
   app
 )
