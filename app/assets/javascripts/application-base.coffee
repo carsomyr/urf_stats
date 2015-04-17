@@ -26,6 +26,10 @@
   app.ApplicationAdapter = DS.ActiveModelAdapter.extend
     namespace: "api"
 
+  app.GAME_VERSION = "5.7.2"
+
+  app.DATA_DRAGON_IMAGE_URL = "http://ddragon.leagueoflegends.com/cdn/" + app.GAME_VERSION + "/img"
+
   app.deferReadiness()
 
   app

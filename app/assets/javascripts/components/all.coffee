@@ -18,9 +18,11 @@
   if typeof define is "function" and define.amd?
     define ["ember",
             "application-base",
-            "./li_active_component"], factory
+            "./li_active_component",
+            "./static_entity_image_component"], factory
 ).call(@, (Ember, #
            app, #
-           LiActiveComponent) ->
+           LiActiveComponent, #
+           StaticEntityImageComponent) ->
   app
 )

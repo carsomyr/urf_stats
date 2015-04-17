@@ -4,16 +4,16 @@
 
         <div class="data-table page-item">
             <div class="data-header">
-                <div class="data-cell" style="width: 20%;">Item</div>
-                <div class="data-cell" style="width: 20%;"># Purchases / # All Purchases</div>
-                <div class="data-cell" style="width: 20%;"># First Purchases / # All First Purchases</div>
+                <div class="data-cell" style="width: 10%;">Item</div>
+                <div class="data-cell" style="width: 25%;"># Purchases / # All Purchases</div>
+                <div class="data-cell" style="width: 25%;"># First Purchases / # All First Purchases</div>
                 <div class="data-cell" style="width: 40%;">Top Buyers</div>
             </div>
             <div class="data-body">
                 {{#each itemStat in controller.model}}
                     <div class="data-row">
                         <div class="data-cell" data-label="Item">
-                            {{itemStat.item.name}}
+                            {{static-entity-image model=itemStat.item}}
                         </div>
                         <div class="data-cell" data-label="# Purchases / # All Purchases">
                             {{itemStat.nPurchases}} / {{itemStat.totalPurchases}}
@@ -22,9 +22,11 @@
                             {{itemStat.nFirstPurchases}} / {{itemStat.totalFirstPurchases}}
                         </div>
                         <div class="data-cell" data-label="Top Buyers">
-                            {{#each champion in itemStat.topPurchasers}}
-                                {{champion.name}}
-                            {{/each}}
+                            <div class="image-holder">
+                                {{#each champion in itemStat.topPurchasers}}
+                                    {{static-entity-image model=champion}}
+                                {{/each}}
+                            </div>
                         </div>
                     </div>
                 {{/each}}

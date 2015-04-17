@@ -14,9 +14,11 @@
                             {{championLaneStat.laneType}}
                         </div>
                         <div class="data-cell" data-label="Popularity by Lane">
-                            {{#each champion in championLaneStat.champions}}
-                                {{champion.name}}
-                            {{/each}}
+                            <div class="image-holder">
+                                {{#each champion in championLaneStat.champions}}
+                                    {{static-entity-image model=champion}}
+                                {{/each}}
+                            </div>
                         </div>
                     </div>
                 {{/each}}

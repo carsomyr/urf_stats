@@ -11,6 +11,7 @@
                 {{#each uselessRuneMasteryStat in controller.model}}
                     <div class="data-row">
                         <div class="data-cell" data-label="Rune or Mastery">
+                            {{static-entity-image model=uselessRuneMasteryStat.content}}
                             {{uselessRuneMasteryStat.content.name}}
                         </div>
                         <div class="data-cell" data-label="# Occurrences / # Players">

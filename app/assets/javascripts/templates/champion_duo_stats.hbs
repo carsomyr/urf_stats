@@ -4,16 +4,18 @@
 
         <div class="data-table page-item">
             <div class="data-header">
-                <div class="data-cell" style="width: 50%;">Champion Duo</div>
-                <div class="data-cell" style="width: 50%;"># Victims / # Games</div>
+                <div class="data-cell" style="width: 20%;">Champion Duo</div>
+                <div class="data-cell" style="width: 80%;"># Victims / # Games</div>
             </div>
             <div class="data-body">
                 {{#each championDuoStat in controller.model}}
                     <div class="data-row">
                         <div class="data-cell" data-label="Champion Duo">
-                            {{#each champion in championDuoStat.champions}}
-                                {{champion.name}}
-                            {{/each}}
+                            <div class="image-holder">
+                                {{#each champion in championDuoStat.champions}}
+                                    {{static-entity-image model=champion}}
+                                {{/each}}
+                            </div>
                         </div>
                         <div class="data-cell" data-label="# Victims / # Games">
                             {{championDuoStat.nKillAssists}} / {{championDuoStat.nMatches}}

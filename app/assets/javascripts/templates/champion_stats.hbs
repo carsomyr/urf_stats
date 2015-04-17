@@ -4,17 +4,17 @@
 
         <div class="data-table page-item">
             <div class="data-header">
-                <div class="data-cell" style="width: 20%;">Champion</div>
-                <div class="data-cell" style="width: 20%;"># Wins / # Picks</div>
-                <div class="data-cell" style="width: 20%;">Picks</div>
-                <div class="data-cell" style="width: 20%;">Bans</div>
-                <div class="data-cell" style="width: 20%;"># Kills / # Deaths</div>
+                <div class="data-cell" style="width: 10%;">Champion</div>
+                <div class="data-cell" style="width: 15%;"># Wins / # Picks</div>
+                <div class="data-cell" style="width: 15%;">Picks</div>
+                <div class="data-cell" style="width: 15%;">Bans</div>
+                <div class="data-cell" style="width: 25%;"># Kills / # Deaths</div>
             </div>
             <div class="data-body">
                 {{#each championStat in controller.model}}
                     <div class="data-row">
                         <div class="data-cell" data-label="Champion">
-                            {{championStat.champion.name}}
+                            {{static-entity-image model=championStat.champion}}
                         </div>
                         <div class="data-cell" data-label="# Wins / # Picks">
                             {{championStat.nWins}} / {{championStat.nPicks}}
