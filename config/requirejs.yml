@@ -12,4 +12,10 @@ shim:
   "jquery_ujs":
     deps: ["jquery"]
     exports: "jQuery"
+  "templates/all":
+    deps: ["ember"]
+    exports: "Ember.Handlebars"
+  "twitter/bootstrap":
+    deps: ["jquery"]
+    exports: "jQuery.fn.popover"
 enforceDefine: true

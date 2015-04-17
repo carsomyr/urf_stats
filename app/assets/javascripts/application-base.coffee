@@ -23,6 +23,9 @@
   app = Ember.Application.create
     LOG_TRANSITIONS: true
 
+  app.ApplicationAdapter = DS.ActiveModelAdapter.extend
+    namespace: "api"
+
   app.deferReadiness()
 
   app

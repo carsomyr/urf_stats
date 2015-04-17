@@ -14,29 +14,4 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-((factory) ->
-  if typeof define is "function" and define.amd?
-    define ["ember",
-            "ember-data",
-            "twitter/bootstrap",
-            "application-base",
-            "controllers/all",
-            "models/all",
-            "routes/all",
-            "templates/all",
-            "views/all"], factory
-).call(@, (Ember, #
-           DS, #
-           Bootstrap, #
-           app, #
-           AllControllers, #
-           AllModels, #
-           AllRoutes, #
-           AllTemplates, #
-           AllViews) ->
-  window.App = app
-
-  app.advanceReadiness()
-
-  app
-)
+#= require_tree .

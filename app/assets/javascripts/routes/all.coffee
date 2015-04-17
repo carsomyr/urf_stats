@@ -17,26 +17,8 @@
 ((factory) ->
   if typeof define is "function" and define.amd?
     define ["ember",
-            "ember-data",
-            "twitter/bootstrap",
-            "application-base",
-            "controllers/all",
-            "models/all",
-            "routes/all",
-            "templates/all",
-            "views/all"], factory
+            "application-base"], factory
 ).call(@, (Ember, #
-           DS, #
-           Bootstrap, #
-           app, #
-           AllControllers, #
-           AllModels, #
-           AllRoutes, #
-           AllTemplates, #
-           AllViews) ->
-  window.App = app
-
-  app.advanceReadiness()
-
+           app) ->
   app
 )
