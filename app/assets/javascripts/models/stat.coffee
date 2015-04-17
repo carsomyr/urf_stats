@@ -18,11 +18,13 @@
   if typeof define is "function" and define.amd?
     define ["ember",
             "ember-data",
-            "application-base"], factory
+            "application-base",
+            "mixins/formatter_mixin"], factory
 ).call(@, (Ember, #
            DS, #
-           app) ->
-  app.Stat = DS.Model.extend
+           app, #
+           FormatterMixin) ->
+  app.Stat = DS.Model.extend FormatterMixin,
     nMatches: DS.attr("number")
     totalDuration: DS.attr("number")
     totalKills: DS.attr("number")
@@ -38,6 +40,104 @@
     totalBarons: DS.attr("number")
     nFirstBaronGames: DS.attr("number")
     totalTimeFirstBaron: DS.attr("number")
+
+    averageDuration: (->
+      totalDuration = @get("totalDuration")
+      nMatches = @get("nMatches")
+
+      if totalDuration isnt null and nMatches isnt null
+        @formatTime(Math.floor(totalDuration / nMatches))
+      else
+        null
+    ).property("totalDuration", "nMatches")
+
+    averageKills: (->
+      totalKills = @get("totalKills")
+      nMatches = @get("nMatches")
+
+      if totalKills isnt null and nMatches isnt null
+        @formatDecimal(totalKills, 10 * nMatches)
+      else
+        null
+    ).property("totalKills", "nMatches")
+
+    averageAssists: (->
+      totalAssists = @get("totalAssists")
+      nMatches = @get("nMatches")
+
+      if totalAssists isnt null and nMatches isnt null
+        @formatDecimal(totalAssists, 10 * nMatches)
+      else
+        null
+    ).property("totalAssists", "nMatches")
+
+    averageTimeFirstBlood: (->
+      totalTimeFirstBlood = @get("totalTimeFirstBlood")
+      nFirstBloodGames = @get("nFirstBloodGames")
+
+      if totalTimeFirstBlood isnt null and nFirstBloodGames isnt null
+        @formatTime(Math.floor(totalTimeFirstBlood / nFirstBloodGames))
+      else
+        null
+    ).property("totalTimeFirstBlood", "nFirstBloodGames")
+
+    averageGold: (->
+      totalGold = @get("totalGold")
+      nMatches = @get("nMatches")
+
+      if totalGold isnt null and nMatches isnt null
+        Math.floor(totalGold / (10 * nMatches))
+      else
+        null
+    ).property("totalGold", "nMatches")
+
+    averageMinionsKilled: (->
+      totalMinionsKilled = @get("totalMinionsKilled")
+      nMatches = @get("nMatches")
+
+      if totalMinionsKilled isnt null and nMatches isnt null
+        Math.floor(totalMinionsKilled / (10 * nMatches))
+      else
+        null
+    ).property("totalMinionsKilled", "nMatches")
+
+    averageChampionLevel: (->
+      totalChampionLevel = @get("totalChampionLevel")
+      nMatches = @get("nMatches")
+
+      if totalChampionLevel isnt null and nMatches isnt null
+        Math.floor(totalChampionLevel / (10 * nMatches))
+      else
+        null
+    ).property("totalChampionLevel", "nMatches")
+
+    averageDragons: (->
+      @formatDecimal(@get("totalDragons"), @get("nMatches"))
+    ).property("totalDragons", "nMatches")
+
+    averageTimeFirstDragon: (->
+      totalTimeFirstDragon = @get("totalTimeFirstDragon")
+      nFirstDragonGames = @get("nFirstDragonGames")
+
+      if totalTimeFirstDragon isnt null and nFirstDragonGames isnt null
+        @formatTime(Math.floor(totalTimeFirstDragon / nFirstDragonGames))
+      else
+        null
+    ).property("totalTimeFirstDragon", "nFirstDragonGames")
+
+    averageBarons: (->
+      @formatDecimal(@get("totalBarons"), @get("nMatches"))
+    ).property("totalBarons", "nMatches")
+
+    averageTimeFirstBaron: (->
+      totalTimeFirstBaron = @get("totalTimeFirstBaron")
+      nFirstBaronGames = @get("nFirstBaronGames")
+
+      if totalTimeFirstBaron isnt null and nFirstBaronGames isnt null
+        @formatTime(Math.floor(totalTimeFirstBaron / nFirstBaronGames))
+      else
+        null
+    ).property("totalTimeFirstBaron", "nFirstBaronGames")
 
   app.Stat
 )

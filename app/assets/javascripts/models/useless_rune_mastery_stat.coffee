@@ -19,15 +19,21 @@
     define ["ember",
             "ember-data",
             "application-base",
-            "./polymorphic"], factory
+            "./polymorphic",
+            "mixins/formatter_mixin"], factory
 ).call(@, (Ember, #
            DS, #
            app, #
-           Polymorphic) ->
-  app.UselessRuneMasteryStat = DS.Model.extend
+           Polymorphic, #
+           FormatterMixin) ->
+  app.UselessRuneMasteryStat = DS.Model.extend FormatterMixin,
     content: DS.belongsTo("polymorphic", polymorphic: true)
     nOccurrences: DS.attr("number")
     nParticipants: DS.attr("number")
+
+    percentOccurrences: (->
+      @formatPercent(@get("nOccurrences"), @get("nParticipants"))
+    ).property("nOccurrences", "nParticipants")
 
   app.UselessRuneMasteryStat
 )

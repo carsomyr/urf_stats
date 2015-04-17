@@ -19,12 +19,14 @@
     define ["ember",
             "ember-data",
             "application-base",
-            "./champion"], factory
+            "./champion",
+            "mixins/formatter_mixin"], factory
 ).call(@, (Ember, #
            DS, #
            app, #
-           Champion) ->
-  app.ChampionStat = DS.Model.extend
+           Champion, #
+           FormatterMixin) ->
+  app.ChampionStat = DS.Model.extend FormatterMixin,
     champion: DS.belongsTo("champion")
     nKills: DS.attr("number")
     nDeaths: DS.attr("number")
@@ -33,6 +35,22 @@
     nBans: DS.attr("number")
     nWins: DS.attr("number")
     nMatches: DS.attr("number")
+
+    percentWins: (->
+      @formatPercent(@get("nWins"), @get("nPicks"))
+    ).property("nWins", "nPicks")
+
+    percentPicks: (->
+      @formatPercent(@get("nPicks"), @get("nMatches"))
+    ).property("nPicks", "nMatches")
+
+    percentBans: (->
+      @formatPercent(@get("nBans"), @get("nMatches"))
+    ).property("nBans", "nMatches")
+
+    averageKillsPerDeath: (->
+      @formatDecimal(@get("nKills"), @get("nDeaths"))
+    ).property("nKills", "nDeaths")
 
   app.ChampionStat
 )

@@ -17,23 +17,10 @@
 ((factory) ->
   if typeof define is "function" and define.amd?
     define ["ember",
-            "ember-data",
             "application-base",
-            "./champion",
-            "mixins/formatter_mixin"], factory
+            "./formatter_mixin"], factory
 ).call(@, (Ember, #
-           DS, #
            app, #
-           Champion, #
            FormatterMixin) ->
-  app.ChampionDuoStat = DS.Model.extend FormatterMixin,
-    champions: DS.hasMany("champion")
-    nKillAssists: DS.attr("number")
-    nMatches: DS.attr("number")
-
-    averageKillAssistsPerMatch: (->
-      @formatDecimal(@get("nKillAssists"), @get("nMatches"))
-    ).property("nKillAssists", "nMatches")
-
-  app.ChampionDuoStat
+  app
 )

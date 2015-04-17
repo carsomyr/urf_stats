@@ -5,8 +5,8 @@
         <div class="data-table page-item">
             <div class="data-header">
                 <div class="data-cell" style="width: 10%;">Item</div>
-                <div class="data-cell" style="width: 25%;"># Purchases / # All Purchases</div>
-                <div class="data-cell" style="width: 25%;"># First Purchases / # All First Purchases</div>
+                <div class="data-cell" style="width: 25%;">Popularity</div>
+                <div class="data-cell" style="width: 25%;">... as First Item</div>
                 <div class="data-cell" style="width: 40%;">Top Buyers</div>
             </div>
             <div class="data-body">
@@ -15,11 +15,11 @@
                         <div class="data-cell" data-label="Item">
                             {{static-entity-image model=itemStat.item}}
                         </div>
-                        <div class="data-cell" data-label="# Purchases / # All Purchases">
-                            {{itemStat.nPurchases}} / {{itemStat.totalPurchases}}
+                        <div class="data-cell" data-label="Popularity">
+                            {{itemStat.percentPurchases}}
                         </div>
-                        <div class="data-cell" data-label="# First Purchases / # All First Purchases">
-                            {{itemStat.nFirstPurchases}} / {{itemStat.totalFirstPurchases}}
+                        <div class="data-cell" data-label="... as First Item">
+                            {{itemStat.percentFirstPurchases}}
                         </div>
                         <div class="data-cell" data-label="Top Buyers">
                             <div class="image-holder">

@@ -4,8 +4,10 @@
 
         <div class="data-table page-item">
             <div class="data-header">
-                <div class="data-cell" style="width: 20%;">Champion Duo</div>
-                <div class="data-cell" style="width: 80%;"># Victims / # Games</div>
+                <div class="data-cell" style="width: 25%;">Champion Duo</div>
+                <div class="data-cell" style="width: 25%;"># Victims</div>
+                <div class="data-cell" style="width: 25%;"># Matches</div>
+                <div class="data-cell" style="width: 25%;">Avg Victims/Match</div>
             </div>
             <div class="data-body">
                 {{#each championDuoStat in controller.model}}
@@ -17,8 +19,14 @@
                                 {{/each}}
                             </div>
                         </div>
-                        <div class="data-cell" data-label="# Victims / # Games">
-                            {{championDuoStat.nKillAssists}} / {{championDuoStat.nMatches}}
+                        <div class="data-cell" data-label="# Victims">
+                            {{championDuoStat.nKillAssists}}
+                        </div>
+                        <div class="data-cell" data-label="# Matches">
+                            {{championDuoStat.nMatches}}
+                        </div>
+                        <div class="data-cell" data-label="Avg Victims/Match">
+                            {{championDuoStat.averageKillAssistsPerMatch}}
                         </div>
                     </div>
                 {{/each}}

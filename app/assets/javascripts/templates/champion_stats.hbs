@@ -5,10 +5,10 @@
         <div class="data-table page-item">
             <div class="data-header">
                 <div class="data-cell" style="width: 10%;">Champion</div>
-                <div class="data-cell" style="width: 15%;"># Wins / # Picks</div>
-                <div class="data-cell" style="width: 15%;">Picks</div>
-                <div class="data-cell" style="width: 15%;">Bans</div>
-                <div class="data-cell" style="width: 25%;"># Kills / # Deaths</div>
+                <div class="data-cell" style="width: 15%;">Win Rate</div>
+                <div class="data-cell" style="width: 15%;">Pick Rate</div>
+                <div class="data-cell" style="width: 15%;">Ban Rate</div>
+                <div class="data-cell" style="width: 25%;">Avg Kills/Death</div>
             </div>
             <div class="data-body">
                 {{#each championStat in controller.model}}
@@ -16,17 +16,17 @@
                         <div class="data-cell" data-label="Champion">
                             {{static-entity-image model=championStat.champion}}
                         </div>
-                        <div class="data-cell" data-label="# Wins / # Picks">
-                            {{championStat.nWins}} / {{championStat.nPicks}}
+                        <div class="data-cell" data-label="Win Rate">
+                            {{championStat.percentWins}}
                         </div>
-                        <div class="data-cell" data-label="Picks">
-                            {{championStat.nPicks}} / {{championStat.nMatches}}
+                        <div class="data-cell" data-label="Pick Rate">
+                            {{championStat.percentPicks}}
                         </div>
-                        <div class="data-cell" data-label="Bans">
-                            {{championStat.nBans}} / {{championStat.nMatches}}
+                        <div class="data-cell" data-label="Ban Rate">
+                            {{championStat.percentBans}}
                         </div>
-                        <div class="data-cell" data-label="# Kills / # Deaths">
-                            {{championStat.nKills}} / {{championStat.nDeaths}}
+                        <div class="data-cell" data-label="Avg Kills/Death">
+                            {{championStat.averageKillsPerDeath}}
                         </div>
                     </div>
                 {{/each}}

@@ -20,19 +20,29 @@
             "ember-data",
             "application-base",
             "./item",
-            "./champion"], factory
+            "./champion",
+            "mixins/formatter_mixin"], factory
 ).call(@, (Ember, #
            DS, #
            app, #
            Item, #
-           Champion) ->
-  app.ItemStat = DS.Model.extend
+           Champion, #
+           FormatterMixin) ->
+  app.ItemStat = DS.Model.extend FormatterMixin,
     item: DS.belongsTo("item")
     topPurchasers: DS.hasMany("champion")
     nFirstPurchases: DS.attr("number")
     totalFirstPurchases: DS.attr("number")
     nPurchases: DS.attr("number")
     totalPurchases: DS.attr("number")
+
+    percentPurchases: (->
+      @formatPercent(@get("nPurchases"), @get("totalPurchases"))
+    ).property("nPurchases", "totalPurchases")
+
+    percentFirstPurchases: (->
+      @formatPercent(@get("nFirstPurchases"), @get("totalFirstPurchases"))
+    ).property("nFirstPurchases", "totalFirstPurchases")
 
   app.ItemStat
 )
