@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 17) do
+ActiveRecord::Schema.define(version: 18) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 17) do
     t.integer "killer_id",   null: false
     t.integer "assister_id"
     t.integer "value",       null: false
+    t.integer "n_matches",   null: false
   end
 
   add_index "kill_assist_counts", ["assister_id"], name: "index_kill_assist_counts_on_assister_id", using: :btree

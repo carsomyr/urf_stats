@@ -14,13 +14,10 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-class KillAssistCount < ActiveRecord::Base
-  belongs_to :stat
-  belongs_to :killer, class_name: "Riot::Api::Champion"
-  belongs_to :assister, class_name: "Riot::Api::Champion"
-
-  validates :stat, presence: true, uniqueness: {scope: [:killer_id, :assister_id]}
-  validates :killer, presence: true
-  validates :value, presence: true
-  validates :n_matches, presence: true
+class AddKillAssistCountsNMatches < ActiveRecord::Migration
+  def change
+    change_table :kill_assist_counts do |t|
+      t.integer :n_matches, null: false
+    end
+  end
 end

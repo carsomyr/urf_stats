@@ -43,9 +43,9 @@ module UrfStats
       @lane_champion_counts = {}
       @lane_champion_counts.default = 0
 
-      # Keys are tuples of the form (killer champion id, assister champion id).
-      @kill_assist_counts = {}
-      @kill_assist_counts.default = 0
+      # Keys are tuples of the form (killer champion id, assister champion id); values are tuples of the form (number of
+      # kill-assists, number of matches).
+      @kill_assist_counts = Hash.new { |hash, key| hash[key] = [0, 0] }
     end
 
     def accumulate(match)
@@ -89,6 +89,8 @@ module UrfStats
         end
       end
 
+      first_kill_assists = Set.new
+
       dto.events(match_json, event_type: "CHAMPION_KILL").each do |event|
         killer_id = champion_ids_by_participant[event["killerId"] - 1]
         victim_id = champion_ids_by_participant[event["victimId"] - 1]
@@ -102,11 +104,24 @@ module UrfStats
         if assister_ids.size > 0
           assister_ids.each do |assister_id|
             @champion_assist_counts[assister_id] += 1
-            @kill_assist_counts[[killer_id, assister_id]] += 1
+
+            key = [killer_id, assister_id]
+            count, n_matches = *@kill_assist_counts[key]
+
+            n_matches += 1 \
+              if first_kill_assists.add?(key)
+
+            @kill_assist_counts[key] = [count + 1, n_matches]
           end
         else
           # Denotes a solo kill.
-          @kill_assist_counts[[killer_id, nil]] += 1
+          key = [killer_id, nil]
+          count, n_matches = *@kill_assist_counts[key]
+
+          n_matches += 1 \
+            if first_kill_assists.add?(key)
+
+          @kill_assist_counts[key] = [count + 1, n_matches]
         end
       end
     end
@@ -149,14 +164,16 @@ module UrfStats
         ei.save!
       end
 
-      @kill_assist_counts.each do |tuple, count|
-        killer_id, assister_id = *tuple
+      @kill_assist_counts.each do |key_tuple, value_tuple|
+        killer_id, assister_id = *key_tuple
+        count, n_matches = *value_tuple
 
         kac = KillAssistCount.new(
             stat: stat,
             killer: champions_by_champion_id[killer_id],
             assister: assister_id ? champions_by_champion_id[assister_id] : nil,
-            value: count
+            value: count,
+            n_matches: n_matches
         )
         kac.save!
       end
