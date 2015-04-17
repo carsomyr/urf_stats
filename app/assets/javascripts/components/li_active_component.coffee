@@ -17,27 +17,16 @@
 ((factory) ->
   if typeof define is "function" and define.amd?
     define ["ember",
-            "ember-data",
-            "twitter/bootstrap",
-            "application-base",
-            "components/all",
-            "controllers/all",
-            "models/all",
-            "routes/all",
-            "templates/all",
-            "views/all"], factory
+            "application-base"], factory
 ).call(@, (Ember, #
-           DS, #
-           Bootstrap, #
-           app, #
-           AllControllers, #
-           AllModels, #
-           AllRoutes, #
-           AllTemplates, #
-           AllViews) ->
-  window.App = app
+           app) ->
+  app.LiActiveComponent = Ember.Component.extend
+    tagName: "li"
+    classNameBindings: ["active"]
 
-  app.advanceReadiness()
+    active: (->
+      @get("childViews").isAny("active")
+    ).property("childViews.@each.active")
 
-  app
+  app.LiActiveComponent
 )

@@ -17,27 +17,10 @@
 ((factory) ->
   if typeof define is "function" and define.amd?
     define ["ember",
-            "ember-data",
-            "twitter/bootstrap",
             "application-base",
-            "components/all",
-            "controllers/all",
-            "models/all",
-            "routes/all",
-            "templates/all",
-            "views/all"], factory
+            "./li_active_component"], factory
 ).call(@, (Ember, #
-           DS, #
-           Bootstrap, #
            app, #
-           AllControllers, #
-           AllModels, #
-           AllRoutes, #
-           AllTemplates, #
-           AllViews) ->
-  window.App = app
-
-  app.advanceReadiness()
-
+           LiActiveComponent) ->
   app
 )
