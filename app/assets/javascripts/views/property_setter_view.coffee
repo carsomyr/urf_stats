@@ -17,18 +17,33 @@
 ((factory) ->
   if typeof define is "function" and define.amd?
     define ["ember",
-            "application-base",
-            "./property_setter_view",
-            "./region_setter_view",
-            "./start_time_setter_view",
-            "./champion_stats_sort_by_setter_view",
-            "./champion_stats_sort_direction_setter_view"], factory
+            "application-base"], factory
 ).call(@, (Ember, #
-           app, #
-           PropertySetterView, #
-           RegionSetterView, #
-           StartTimeSetterView, #
-           ChampionStatsSortBySetterView, #
-           ChampionStatsSortDirectionSetterView) ->
-  app
+           app) ->
+  app.PropertySetterView = Ember.View.extend
+    templateName: "views/property_setter"
+    classNameBindings: ["active"]
+    tagName: "button"
+    property: null
+    value: null
+    text: null
+
+    active: (->
+      @get("parentView.activeChild") is @
+    ).property("parentView.activeChild")
+
+    buttonText: (->
+      text = @get("text")
+
+      if text isnt null
+        text
+      else
+        @get("value")
+    ).property("text")
+
+    click: ->
+      @get("parentView").set("activeChild", @)
+      @get("context").set(@get("property"), @get("value"))
+
+  app.PropertySetterView
 )

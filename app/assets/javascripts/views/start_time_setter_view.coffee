@@ -18,17 +18,14 @@
   if typeof define is "function" and define.amd?
     define ["ember",
             "application-base",
-            "./property_setter_view",
-            "./region_setter_view",
-            "./start_time_setter_view",
-            "./champion_stats_sort_by_setter_view",
-            "./champion_stats_sort_direction_setter_view"], factory
+            "./property_setter_view"], factory
 ).call(@, (Ember, #
            app, #
-           PropertySetterView, #
-           RegionSetterView, #
-           StartTimeSetterView, #
-           ChampionStatsSortBySetterView, #
-           ChampionStatsSortDirectionSetterView) ->
-  app
+           PropertySetterView) ->
+  app.StartTimeSetterView = Ember.View.extend
+    templateName: "views/start_time_setter"
+    classNames: ["btn-group", "page"]
+    activeChild: null
+
+  app.StartTimeSetterView
 )
