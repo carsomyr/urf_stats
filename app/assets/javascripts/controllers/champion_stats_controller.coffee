@@ -26,6 +26,11 @@
     start_time: undefined
     sort_by: undefined
     sort_direction: undefined
+    changed: 0
+
+    changeObserver: (->
+      @set("changed", (@get("changed") + 1) % 64)
+    ).observes("region", "start_time", "sort_by", "sort_direction")
 
   app.ChampionStatsController
 )

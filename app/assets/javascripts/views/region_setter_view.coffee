@@ -25,7 +25,6 @@
   app.RegionSetterView = Ember.View.extend
     templateName: "views/region_setter"
     classNames: ["btn-group", "page"]
-    activeChild: null
 
   app.RegionSetterView
 )

@@ -22,10 +22,9 @@
 ).call(@, (Ember, #
            app, #
            PropertySetterView) ->
-  app.ChampionStatsSortDirectionSetterView = Ember.View.extend
-    templateName: "views/champion_stats_sort_direction_setter"
-    classNames: ["btn-group", "page"]
-    activeChild: null
+  app.ChampionStatsSortSetterView = Ember.View.extend
+    templateName: "views/champion_stats_sort_setter"
+    classNames: ["btn-toolbar", "page"]
 
-  app.ChampionStatsSortDirectionSetterView
+  app.ChampionStatsSortSetterView
 )

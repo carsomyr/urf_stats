@@ -25,7 +25,6 @@
   app.StartTimeSetterView = Ember.View.extend
     templateName: "views/start_time_setter"
     classNames: ["btn-group", "page"]
-    activeChild: null
 
   app.StartTimeSetterView
 )

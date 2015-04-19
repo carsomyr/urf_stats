@@ -24,6 +24,11 @@
     queryParams: ["region", "start_time"]
     region: undefined
     start_time: undefined
+    changed: 0
+
+    changeObserver: (->
+      @set("changed", (@get("changed") + 1) % 64)
+    ).observes("region", "start_time")
 
   app.ItemStatsController
 )

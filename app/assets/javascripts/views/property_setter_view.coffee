@@ -29,8 +29,8 @@
     text: null
 
     active: (->
-      @get("parentView.activeChild") is @
-    ).property("parentView.activeChild")
+      @get("context." + @get("property")) is @get("value")
+    ).property("context.changed")
 
     buttonText: (->
       text = @get("text")
@@ -42,7 +42,6 @@
     ).property("text")
 
     click: ->
-      @get("parentView").set("activeChild", @)
       @get("context").set(@get("property"), @get("value"))
 
   app.PropertySetterView

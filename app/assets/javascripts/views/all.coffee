@@ -21,14 +21,12 @@
             "./property_setter_view",
             "./region_setter_view",
             "./start_time_setter_view",
-            "./champion_stats_sort_by_setter_view",
-            "./champion_stats_sort_direction_setter_view"], factory
+            "./champion_stats_sort_setter_view"], factory
 ).call(@, (Ember, #
            app, #
            PropertySetterView, #
            RegionSetterView, #
            StartTimeSetterView, #
-           ChampionStatsSortBySetterView, #
-           ChampionStatsSortDirectionSetterView) ->
+           ChampionStatsSortSetterView) ->
   app
 )
