@@ -26,6 +26,8 @@
         refreshModel: true
       start_time:
         refreshModel: true
+      search:
+        refreshModel: true
 
     model: (params) ->
       @store.find("itemStat", params)

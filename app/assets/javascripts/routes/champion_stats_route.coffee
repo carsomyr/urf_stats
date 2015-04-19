@@ -30,6 +30,8 @@
         refreshModel: true
       sort_direction:
         refreshModel: true
+      search:
+        refreshModel: true
 
     model: (params) ->
       @store.find("championStat", params)

@@ -21,16 +21,17 @@
 ).call(@, (Ember, #
            app) ->
   app.ChampionStatsController = Ember.Controller.extend
-    queryParams: ["region", "start_time", "sort_by", "sort_direction"]
+    queryParams: ["region", "start_time", "sort_by", "sort_direction", "search"]
     region: undefined
     start_time: undefined
     sort_by: undefined
     sort_direction: undefined
+    search: undefined
     changed: 0
 
     changeObserver: (->
       @set("changed", (@get("changed") + 1) % 64)
-    ).observes("region", "start_time", "sort_by", "sort_direction")
+    ).observes("region", "start_time", "sort_by", "sort_direction", "search")
 
   app.ChampionStatsController
 )

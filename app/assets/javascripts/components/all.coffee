@@ -19,10 +19,12 @@
     define ["ember",
             "application-base",
             "./li_active_component",
-            "./static_entity_image_component"], factory
+            "./static_entity_image_component",
+            "./entity_search_component"], factory
 ).call(@, (Ember, #
            app, #
            LiActiveComponent, #
-           StaticEntityImageComponent) ->
+           StaticEntityImageComponent, #
+           EntitySearchComponent) ->
   app
 )

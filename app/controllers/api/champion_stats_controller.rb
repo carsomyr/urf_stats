@@ -33,6 +33,7 @@ module Api
       start_time &&= DateTime.strptime(start_time, "%s")
       sort_by = params[:sort_by] || "wins-picks"
       sort_direction = params[:sort_direction] || "descending"
+      search = params[:search]
 
       eis = EntityInteger.arel_table
       ses = Riot::Api::StaticEntity.arel_table
@@ -55,14 +56,26 @@ module Api
         eis_to_stats_node = nil
       end
 
+      if search
+        eis_to_ses_node = eis.create_join(
+            ses,
+            eis.create_on(eis[:entity_id].eq ses[:id])
+        )
+
+        eis_where_node = where_node.and(ses[:name].matches (search + "%"))
+      else
+        eis_to_ses_node = nil
+        eis_where_node = where_node
+      end
+
       total_column_node = Arel::Nodes::SqlLiteral.new("total")
 
       kdapbws_by_champion_id = Hash.new { |hash, key| hash[key] = [0, 0, 0, 0, 0, 0] }
 
       EntityInteger
           .select(eis[:entity_id], eis[:value_type], (eis[:value].sum.as total_column_node))
-          .joins(eis_to_stats_node)
-          .where(where_node.and(eis[:value_type].in CHAMPION_VALUE_TYPES))
+          .joins(eis_to_stats_node, eis_to_ses_node)
+          .where(eis_where_node.and(eis[:value_type].in CHAMPION_VALUE_TYPES))
           .group(eis[:entity_id], eis[:value_type])
           .each do |champion_kdapbw|
         champion_id = champion_kdapbw.entity_id

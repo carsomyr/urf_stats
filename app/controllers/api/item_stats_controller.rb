@@ -23,9 +23,11 @@ module Api
       region = params[:region]
       start_time = params[:start_time]
       start_time &&= DateTime.strptime(start_time, "%s")
+      search = params[:search]
 
       ipcs = ItemPurchaseCount.arel_table
       eis = EntityInteger.arel_table
+      ses = Riot::Api::StaticEntity.arel_table
       stats = Stat.arel_table
 
       where_node = ipcs.create_true
@@ -51,13 +53,25 @@ module Api
         eis_to_stats_node = nil
       end
 
+      if search
+        ipcs_to_ses_node = ipcs.create_join(
+            ses,
+            ipcs.create_on(ipcs[:item_id].eq ses[:id])
+        )
+
+        ipcs_where_node = where_node.and(ses[:name].matches (search + "%"))
+      else
+        ipcs_to_ses_node = nil
+        ipcs_where_node = where_node
+      end
+
       total_column_node = Arel::Nodes::SqlLiteral.new("total")
 
       popular_item_purchases =
           ItemPurchaseCount
               .select(ipcs[:item_id], (ipcs[:value].sum.as total_column_node))
-              .joins(ipcs_to_stats_node)
-              .where(where_node)
+              .joins(ipcs_to_stats_node, ipcs_to_ses_node)
+              .where(ipcs_where_node)
               .group(ipcs[:item_id])
               .order(total_column_node.desc)
               .limit(N_POPULAR_ITEMS)

@@ -20,16 +20,35 @@
             "application-base"], factory
 ).call(@, (Ember, #
            app) ->
-  app.ItemStatsController = Ember.Controller.extend
-    queryParams: ["region", "start_time", "search"]
-    region: undefined
-    start_time: undefined
-    search: undefined
-    changed: 0
+  submitDelayShort = 500
+  submitDelayLong = 2000
 
-    changeObserver: (->
-      @set("changed", (@get("changed") + 1) % 64)
-    ).observes("region", "start_time", "search")
+  app.EntitySearchComponent = Ember.TextField.extend
+    classNames: ["form-control", "page"]
+    pendingSubmit: null
+    lastSubmittedTimestamp: Date.now()
 
-  app.ItemStatsController
+    keyDown: ->
+      timestamp = Date.now()
+
+      if @get("pendingSubmit") isnt null
+        return
+
+      delay = Math.max(submitDelayShort, submitDelayLong - (Date.now() - @get("lastSubmittedTimestamp")))
+
+      @set("pendingSubmit",
+        Ember.run.later(@, ->
+          @set("lastSubmittedTimestamp", Date.now())
+          @set("pendingSubmit", null)
+
+          value = @get("value")
+
+          if value is ""
+            value = undefined
+
+          @set("targetObject.search", value)
+        , delay)
+      )
+
+  app.EntitySearchComponent
 )
