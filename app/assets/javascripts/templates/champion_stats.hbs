@@ -24,16 +24,6 @@
 
         <div class="col-sm-2">
             <div style="padding-top: 15px;">
-                <b>Sort By</b>
-            </div>
-        </div>
-
-        <div class="col-sm-10">
-            {{view "champion_stats_sort_setter"}}
-        </div>
-
-        <div class="col-sm-2">
-            <div style="padding-top: 15px;">
                 <b>By Name</b>
             </div>
         </div>
@@ -42,13 +32,35 @@
             {{entity-search placeholder="Orianna"}}
         </div>
 
+        <div class="col-sm-2 visible-xs">
+            <div style="padding-top: 15px;">
+                <b>Sort By</b>
+            </div>
+        </div>
+
+        <div class="col-sm-10 visible-xs">
+            {{view "champion_stats_sort_bar"}}
+        </div>
+
         <div class="data-table page-item">
             <div class="data-header">
                 <div class="data-cell" style="width: 10%;">Champion</div>
-                <div class="data-cell" style="width: 15%;">Win Rate</div>
-                <div class="data-cell" style="width: 15%;">Pick Rate</div>
-                <div class="data-cell" style="width: 15%;">Ban Rate</div>
-                <div class="data-cell" style="width: 25%;">Avg Kills/Death</div>
+                <div class="data-cell" style="width: 15%;">
+                    {{view "champion_stats_sort_button" sortBy=undefined class="btn btn-default btn-xs"}}
+                    Win Rate
+                </div>
+                <div class="data-cell" style="width: 15%;">
+                    {{view "champion_stats_sort_button" sortBy="picks" class="btn btn-default btn-xs"}}
+                    Pick Rate
+                </div>
+                <div class="data-cell" style="width: 15%;">
+                    {{view "champion_stats_sort_button" sortBy="bans" class="btn btn-default btn-xs"}}
+                    Ban Rate
+                </div>
+                <div class="data-cell" style="width: 25%;">
+                    {{view "champion_stats_sort_button" sortBy="kills-deaths" class="btn btn-default btn-xs"}}
+                    Avg Kills/Death
+                </div>
             </div>
             <div class="data-body">
                 {{#each championStat in controller.model}}

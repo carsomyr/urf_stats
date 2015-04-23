@@ -21,6 +21,14 @@
 @import "data_table";
 @import "vertical_navbar";
 
+@fontAwesomeEotPath: asset-url("fontawesome-webfont.eot");
+@fontAwesomeEotPath_iefix: asset-url("fontawesome-webfont.eot?#iefix");
+@fontAwesomeWoffPath: asset-url("fontawesome-webfont.woff");
+@fontAwesomeTtfPath: asset-url("fontawesome-webfont.ttf");
+@fontAwesomeSvgPath: asset-url("fontawesome-webfont.svg#fontawesomeregular");
+
+@import "fontawesome/font-awesome";
+
 html {
   height: 100%;
 
@@ -68,4 +76,20 @@ a.static-entity-link {
 // Eliminate spacing between adjacent images.
 .image-holder {
   font-size: 0px;
+}
+
+button.btn-champion-stats-sort {
+  float: right;
+
+  > i {
+    position: relative;
+
+    &.fa-sort-desc {
+      top: -4px;
+    }
+
+    &.fa-sort-asc {
+      top: 4px;
+    }
+  }
 }
