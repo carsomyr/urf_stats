@@ -28,6 +28,13 @@
     pendingSubmit: null
     lastSubmittedTimestamp: Date.now()
 
+    searchObserver: (->
+      value = @get("targetObject.search")
+
+      if value isnt undefined
+        @set("value", value)
+    ).observes("targetObject.search").on("init")
+
     keyDown: ->
       timestamp = Date.now()
 
