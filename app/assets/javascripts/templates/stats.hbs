@@ -1,9 +1,11 @@
 <div class="container-fluid">
     <div class="row">
-        <h2 class="page-item">Matches</h2>
+        <div class="col-sm-12">
+            <h2 style="margin-top: 15px;">Matches</h2>
+        </div>
 
         <div class="col-sm-2">
-            <div style="padding-top: 15px;">
+            <div style="margin-top: 15px;">
                 <b>Region</b>
             </div>
         </div>
@@ -13,7 +15,7 @@
         </div>
 
         <div class="col-sm-2">
-            <div style="padding-top: 15px;">
+            <div style="margin-top: 15px;">
                 <b>Date</b>
             </div>
         </div>
@@ -22,106 +24,108 @@
             {{view "start_time_setter"}}
         </div>
 
-        <div class="data-table page-item">
-            <div class="data-header">
-                <div class="data-cell" style="width: 50%;">Stat</div>
-                <div class="data-cell" style="width: 50%;">Value</div>
-            </div>
-            <div class="data-body">
-                <div class="data-row">
-                    <div class="data-cell" data-label="Stat">
-                        # Matches
-                    </div>
-                    <div class="data-cell" data-label="Value">
-                        {{controller.model.nMatches}}
-                    </div>
+        <div class="col-sm-12">
+            <div class="data-table" style="margin-top: 15px;">
+                <div class="data-header">
+                    <div class="data-cell" style="width: 50%;">Stat</div>
+                    <div class="data-cell" style="width: 50%;">Value</div>
                 </div>
-                <div class="data-row">
-                    <div class="data-cell" data-label="Stat">
-                        Avg Length/Match
+                <div class="data-body">
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Stat">
+                            # Matches
+                        </div>
+                        <div class="data-cell" data-label="Value">
+                            {{controller.model.nMatches}}
+                        </div>
                     </div>
-                    <div class="data-cell" data-label="Value">
-                        {{controller.model.averageDuration}}
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Stat">
+                            Avg Length/Match
+                        </div>
+                        <div class="data-cell" data-label="Value">
+                            {{controller.model.averageDuration}}
+                        </div>
                     </div>
-                </div>
-                <div class="data-row">
-                    <div class="data-cell" data-label="Stat">
-                        Avg Player Kills/Match
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Stat">
+                            Avg Player Kills/Match
+                        </div>
+                        <div class="data-cell" data-label="Value">
+                            {{controller.model.averageKills}}
+                        </div>
                     </div>
-                    <div class="data-cell" data-label="Value">
-                        {{controller.model.averageKills}}
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Stat">
+                            Avg Player Assists/Match
+                        </div>
+                        <div class="data-cell" data-label="Value">
+                            {{controller.model.averageAssists}}
+                        </div>
                     </div>
-                </div>
-                <div class="data-row">
-                    <div class="data-cell" data-label="Stat">
-                        Avg Player Assists/Match
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Stat">
+                            Avg First Blood Time/Match
+                        </div>
+                        <div class="data-cell" data-label="Value">
+                            {{controller.model.averageTimeFirstBlood}}
+                        </div>
                     </div>
-                    <div class="data-cell" data-label="Value">
-                        {{controller.model.averageAssists}}
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Stat">
+                            Avg Player Gold/Match
+                        </div>
+                        <div class="data-cell" data-label="Value">
+                            {{controller.model.averageGold}}
+                        </div>
                     </div>
-                </div>
-                <div class="data-row">
-                    <div class="data-cell" data-label="Stat">
-                        Avg First Blood Time/Match
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Stat">
+                            Avg Player Minions/Match
+                        </div>
+                        <div class="data-cell" data-label="Value">
+                            {{controller.model.averageMinionsKilled}}
+                        </div>
                     </div>
-                    <div class="data-cell" data-label="Value">
-                        {{controller.model.averageTimeFirstBlood}}
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Stat">
+                            Avg Champion Level/Match
+                        </div>
+                        <div class="data-cell" data-label="Value">
+                            {{controller.model.averageChampionLevel}}
+                        </div>
                     </div>
-                </div>
-                <div class="data-row">
-                    <div class="data-cell" data-label="Stat">
-                        Avg Player Gold/Match
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Stat">
+                            Avg Dragons/Match
+                        </div>
+                        <div class="data-cell" data-label="Value">
+                            {{controller.model.averageDragons}}
+                        </div>
                     </div>
-                    <div class="data-cell" data-label="Value">
-                        {{controller.model.averageGold}}
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Stat">
+                            Avg First Dragon Time/Match
+                        </div>
+                        <div class="data-cell" data-label="Value">
+                            {{controller.model.averageTimeFirstDragon}}
+                        </div>
                     </div>
-                </div>
-                <div class="data-row">
-                    <div class="data-cell" data-label="Stat">
-                        Avg Player Minions/Match
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Stat">
+                            Avg Barons/Match
+                        </div>
+                        <div class="data-cell" data-label="Value">
+                            {{controller.model.averageBarons}}
+                        </div>
                     </div>
-                    <div class="data-cell" data-label="Value">
-                        {{controller.model.averageMinionsKilled}}
-                    </div>
-                </div>
-                <div class="data-row">
-                    <div class="data-cell" data-label="Stat">
-                        Avg Champion Level/Match
-                    </div>
-                    <div class="data-cell" data-label="Value">
-                        {{controller.model.averageChampionLevel}}
-                    </div>
-                </div>
-                <div class="data-row">
-                    <div class="data-cell" data-label="Stat">
-                        Avg Dragons/Match
-                    </div>
-                    <div class="data-cell" data-label="Value">
-                        {{controller.model.averageDragons}}
-                    </div>
-                </div>
-                <div class="data-row">
-                    <div class="data-cell" data-label="Stat">
-                        Avg First Dragon Time/Match
-                    </div>
-                    <div class="data-cell" data-label="Value">
-                        {{controller.model.averageTimeFirstDragon}}
-                    </div>
-                </div>
-                <div class="data-row">
-                    <div class="data-cell" data-label="Stat">
-                        Avg Barons/Match
-                    </div>
-                    <div class="data-cell" data-label="Value">
-                        {{controller.model.averageBarons}}
-                    </div>
-                </div>
-                <div class="data-row">
-                    <div class="data-cell" data-label="Stat">
-                        Avg First Baron Time/Match
-                    </div>
-                    <div class="data-cell" data-label="Value">
-                        {{controller.model.averageTimeFirstBaron}}
+                    <div class="data-row">
+                        <div class="data-cell" data-label="Stat">
+                            Avg First Baron Time/Match
+                        </div>
+                        <div class="data-cell" data-label="Value">
+                            {{controller.model.averageTimeFirstBaron}}
+                        </div>
                     </div>
                 </div>
             </div>

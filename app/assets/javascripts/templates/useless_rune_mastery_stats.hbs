@@ -1,9 +1,11 @@
 <div class="container-fluid">
     <div class="row">
-        <h2 class="page-item">Useless Runes and Masteries</h2>
+        <div class="col-sm-12">
+            <h2 style="margin-top: 15px;">Useless Runes and Masteries</h2>
+        </div>
 
         <div class="col-sm-2">
-            <div style="padding-top: 15px;">
+            <div style="margin-top: 15px;">
                 <b>Region</b>
             </div>
         </div>
@@ -13,7 +15,7 @@
         </div>
 
         <div class="col-sm-2">
-            <div style="padding-top: 15px;">
+            <div style="margin-top: 15px;">
                 <b>Date</b>
             </div>
         </div>
@@ -22,27 +24,29 @@
             {{view "start_time_setter"}}
         </div>
 
-        <div class="data-table page-item">
-            <div class="data-header">
-                <div class="data-cell" style="width: 50%;">Rune or Mastery</div>
-                <div class="data-cell" style="width: 25%;">Occurrence Rate</div>
-                <div class="data-cell" style="width: 25%;"># Players</div>
-            </div>
-            <div class="data-body">
-                {{#each uselessRuneMasteryStat in controller.model}}
-                    <div class="data-row">
-                        <div class="data-cell" data-label="Rune or Mastery">
-                            {{static-entity-image model=uselessRuneMasteryStat.content}}
-                            {{uselessRuneMasteryStat.content.name}}
+        <div class="col-sm-12">
+            <div class="data-table" style="margin-top: 15px;">
+                <div class="data-header">
+                    <div class="data-cell" style="width: 50%;">Rune or Mastery</div>
+                    <div class="data-cell" style="width: 25%;">Occurrence Rate</div>
+                    <div class="data-cell" style="width: 25%;"># Players</div>
+                </div>
+                <div class="data-body">
+                    {{#each uselessRuneMasteryStat in controller.model}}
+                        <div class="data-row">
+                            <div class="data-cell" data-label="Rune or Mastery">
+                                {{static-entity-image model=uselessRuneMasteryStat.content}}
+                                {{uselessRuneMasteryStat.content.name}}
+                            </div>
+                            <div class="data-cell" data-label="Occurrence Rate">
+                                {{uselessRuneMasteryStat.percentOccurrences}}
+                            </div>
+                            <div class="data-cell" data-label="# Players">
+                                {{uselessRuneMasteryStat.nOccurrences}}
+                            </div>
                         </div>
-                        <div class="data-cell" data-label="Occurrence Rate">
-                            {{uselessRuneMasteryStat.percentOccurrences}}
-                        </div>
-                        <div class="data-cell" data-label="# Players">
-                            {{uselessRuneMasteryStat.nOccurrences}}
-                        </div>
-                    </div>
-                {{/each}}
+                    {{/each}}
+                </div>
             </div>
         </div>
     </div>

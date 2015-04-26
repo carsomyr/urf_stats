@@ -1,9 +1,11 @@
 <div class="container-fluid">
     <div class="row">
-        <h2 class="page-item">Champion Duos</h2>
+        <div class="col-sm-12">
+            <h2 style="margin-top: 15px;">Champion Duos</h2>
+        </div>
 
         <div class="col-sm-2">
-            <div style="padding-top: 15px;">
+            <div style="margin-top: 15px;">
                 <b>Region</b>
             </div>
         </div>
@@ -13,7 +15,7 @@
         </div>
 
         <div class="col-sm-2">
-            <div style="padding-top: 15px;">
+            <div style="margin-top: 15px;">
                 <b>Date</b>
             </div>
         </div>
@@ -22,34 +24,36 @@
             {{view "start_time_setter"}}
         </div>
 
-        <div class="data-table page-item">
-            <div class="data-header">
-                <div class="data-cell" style="width: 25%;">Champion Duo</div>
-                <div class="data-cell" style="width: 25%;"># Victims</div>
-                <div class="data-cell" style="width: 25%;"># Matches</div>
-                <div class="data-cell" style="width: 25%;">Avg Victims/Match</div>
-            </div>
-            <div class="data-body">
-                {{#each championDuoStat in controller.model}}
-                    <div class="data-row">
-                        <div class="data-cell" data-label="Champion Duo">
-                            <div class="image-holder">
-                                {{#each champion in championDuoStat.champions}}
-                                    {{static-entity-image model=champion}}
-                                {{/each}}
+        <div class="col-sm-12">
+            <div class="data-table" style="margin-top: 15px;">
+                <div class="data-header">
+                    <div class="data-cell" style="width: 25%;">Champion Duo</div>
+                    <div class="data-cell" style="width: 25%;"># Victims</div>
+                    <div class="data-cell" style="width: 25%;"># Matches</div>
+                    <div class="data-cell" style="width: 25%;">Avg Victims/Match</div>
+                </div>
+                <div class="data-body">
+                    {{#each championDuoStat in controller.model}}
+                        <div class="data-row">
+                            <div class="data-cell" data-label="Champion Duo">
+                                <div class="image-holder">
+                                    {{#each champion in championDuoStat.champions}}
+                                        {{static-entity-image model=champion}}
+                                    {{/each}}
+                                </div>
+                            </div>
+                            <div class="data-cell" data-label="# Victims">
+                                {{championDuoStat.nKillAssists}}
+                            </div>
+                            <div class="data-cell" data-label="# Matches">
+                                {{championDuoStat.nMatches}}
+                            </div>
+                            <div class="data-cell" data-label="Avg Victims/Match">
+                                {{championDuoStat.averageKillAssistsPerMatch}}
                             </div>
                         </div>
-                        <div class="data-cell" data-label="# Victims">
-                            {{championDuoStat.nKillAssists}}
-                        </div>
-                        <div class="data-cell" data-label="# Matches">
-                            {{championDuoStat.nMatches}}
-                        </div>
-                        <div class="data-cell" data-label="Avg Victims/Match">
-                            {{championDuoStat.averageKillAssistsPerMatch}}
-                        </div>
-                    </div>
-                {{/each}}
+                    {{/each}}
+                </div>
             </div>
         </div>
     </div>

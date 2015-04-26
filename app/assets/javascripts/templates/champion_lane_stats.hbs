@@ -1,9 +1,11 @@
 <div class="container-fluid">
     <div class="row">
-        <h2 class="page-item">Lanes</h2>
+        <div class="col-sm-12">
+            <h2 style="margin-top: 15px;">Lanes</h2>
+        </div>
 
         <div class="col-sm-2">
-            <div style="padding-top: 15px;">
+            <div style="margin-top: 15px;">
                 <b>Region</b>
             </div>
         </div>
@@ -13,7 +15,7 @@
         </div>
 
         <div class="col-sm-2">
-            <div style="padding-top: 15px;">
+            <div style="margin-top: 15px;">
                 <b>Date</b>
             </div>
         </div>
@@ -22,26 +24,28 @@
             {{view "start_time_setter"}}
         </div>
 
-        <div class="data-table page-item">
-            <div class="data-header">
-                <div class="data-cell" style="width: 50%;">Lane Type</div>
-                <div class="data-cell" style="width: 50%;">Popularity by Lane</div>
-            </div>
-            <div class="data-body">
-                {{#each championLaneStat in controller.model}}
-                    <div class="data-row">
-                        <div class="data-cell" data-label="Lane Type">
-                            {{championLaneStat.laneType}}
-                        </div>
-                        <div class="data-cell" data-label="Popularity by Lane">
-                            <div class="image-holder">
-                                {{#each champion in championLaneStat.champions}}
-                                    {{static-entity-image model=champion}}
-                                {{/each}}
+        <div class="col-sm-12">
+            <div class="data-table" style="margin-top: 15px;">
+                <div class="data-header">
+                    <div class="data-cell" style="width: 50%;">Lane Type</div>
+                    <div class="data-cell" style="width: 50%;">Popularity by Lane</div>
+                </div>
+                <div class="data-body">
+                    {{#each championLaneStat in controller.model}}
+                        <div class="data-row">
+                            <div class="data-cell" data-label="Lane Type">
+                                {{championLaneStat.laneType}}
+                            </div>
+                            <div class="data-cell" data-label="Popularity by Lane">
+                                <div class="image-holder">
+                                    {{#each champion in championLaneStat.champions}}
+                                        {{static-entity-image model=champion}}
+                                    {{/each}}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {{/each}}
+                    {{/each}}
+                </div>
             </div>
         </div>
     </div>

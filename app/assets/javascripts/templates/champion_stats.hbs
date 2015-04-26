@@ -1,9 +1,11 @@
 <div class="container-fluid">
     <div class="row">
-        <h2 class="page-item">Champions</h2>
+        <div class="col-sm-12">
+            <h2 style="margin-top: 15px;">Champions</h2>
+        </div>
 
         <div class="col-sm-2">
-            <div style="padding-top: 15px;">
+            <div style="margin-top: 15px;">
                 <b>Region</b>
             </div>
         </div>
@@ -13,7 +15,7 @@
         </div>
 
         <div class="col-sm-2">
-            <div style="padding-top: 15px;">
+            <div style="margin-top: 15px;">
                 <b>Date</b>
             </div>
         </div>
@@ -23,7 +25,7 @@
         </div>
 
         <div class="col-sm-2">
-            <div style="padding-top: 15px;">
+            <div style="margin-top: 15px;">
                 <b>By Name</b>
             </div>
         </div>
@@ -33,7 +35,7 @@
         </div>
 
         <div class="col-sm-2 visible-xs">
-            <div style="padding-top: 15px;">
+            <div style="margin-top: 15px;">
                 <b>Sort By</b>
             </div>
         </div>
@@ -42,47 +44,55 @@
             {{view "champion_stats_sort_bar"}}
         </div>
 
-        <div class="data-table page-item">
-            <div class="data-header">
-                <div class="data-cell" style="width: 10%;">Champion</div>
-                <div class="data-cell" style="width: 15%;">
-                    {{view "champion_stats_sort_button" sortBy=undefined class="btn btn-default btn-xs"}}
-                    Win Rate
-                </div>
-                <div class="data-cell" style="width: 15%;">
-                    {{view "champion_stats_sort_button" sortBy="picks" class="btn btn-default btn-xs"}}
-                    Pick Rate
-                </div>
-                <div class="data-cell" style="width: 15%;">
-                    {{view "champion_stats_sort_button" sortBy="bans" class="btn btn-default btn-xs"}}
-                    Ban Rate
-                </div>
-                <div class="data-cell" style="width: 25%;">
-                    {{view "champion_stats_sort_button" sortBy="kills-deaths" class="btn btn-default btn-xs"}}
-                    Avg Kills/Death
-                </div>
-            </div>
-            <div class="data-body">
-                {{#each championStat in controller.model}}
-                    <div class="data-row">
-                        <div class="data-cell" data-label="Champion">
-                            {{static-entity-image model=championStat.champion}}
+        <div class="col-sm-12">
+            {{#if controller.model}}
+                <div class="data-table" style="margin-top: 15px;">
+                    <div class="data-header">
+                        <div class="data-cell" style="width: 10%;">Champion</div>
+                        <div class="data-cell" style="width: 15%;">
+                            {{view "champion_stats_sort_button" sortBy=undefined class="btn btn-default btn-xs"}}
+                            Win Rate
                         </div>
-                        <div class="data-cell" data-label="Win Rate">
-                            {{championStat.percentWins}}
+                        <div class="data-cell" style="width: 15%;">
+                            {{view "champion_stats_sort_button" sortBy="picks" class="btn btn-default btn-xs"}}
+                            Pick Rate
                         </div>
-                        <div class="data-cell" data-label="Pick Rate">
-                            {{championStat.percentPicks}}
+                        <div class="data-cell" style="width: 15%;">
+                            {{view "champion_stats_sort_button" sortBy="bans" class="btn btn-default btn-xs"}}
+                            Ban Rate
                         </div>
-                        <div class="data-cell" data-label="Ban Rate">
-                            {{championStat.percentBans}}
-                        </div>
-                        <div class="data-cell" data-label="Avg Kills/Death">
-                            {{championStat.averageKillsPerDeath}}
+                        <div class="data-cell" style="width: 25%;">
+                            {{view "champion_stats_sort_button" sortBy="kills-deaths" class="btn btn-default btn-xs"}}
+                            Avg Kills/Death
                         </div>
                     </div>
-                {{/each}}
-            </div>
+                    <div class="data-body">
+                        {{#each championStat in controller.model}}
+                            <div class="data-row">
+                                <div class="data-cell" data-label="Champion">
+                                    {{static-entity-image model=championStat.champion}}
+                                </div>
+                                <div class="data-cell" data-label="Win Rate">
+                                    {{championStat.percentWins}}
+                                </div>
+                                <div class="data-cell" data-label="Pick Rate">
+                                    {{championStat.percentPicks}}
+                                </div>
+                                <div class="data-cell" data-label="Ban Rate">
+                                    {{championStat.percentBans}}
+                                </div>
+                                <div class="data-cell" data-label="Avg Kills/Death">
+                                    {{championStat.averageKillsPerDeath}}
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            {{else}}
+                <p class="text-border" style="margin-top: 30px; text-align: center;">
+                    No champions matched the name "{{controller.search}}".
+                </p>
+            {{/if}}
         </div>
     </div>
 </div>
