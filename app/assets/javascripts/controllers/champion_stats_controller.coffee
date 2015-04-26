@@ -20,6 +20,8 @@
             "application-base"], factory
 ).call(@, (Ember, #
            app) ->
+  pngExtensionPattern = new RegExp("\\.png$")
+
   app.ChampionStatsController = Ember.Controller.extend
     queryParams: ["region", "start_time", "sort_by", "sort_direction", "search"]
     region: undefined
@@ -32,6 +34,19 @@
     changeObserver: (->
       @set("changed", (@get("changed") + 1) % 64)
     ).observes("region", "start_time", "sort_by", "sort_direction", "search")
+
+    backgroundStyle: (->
+      if @get("model.length") isnt 1
+        style = ""
+      else
+        imagePath = @get("model").objectAt(0).get("champion.imagePath")
+
+        style = "background-image: url(http://ddragon.leagueoflegends.com/cdn/img/champion/splash/"
+        style += imagePath.replace(pngExtensionPattern, "")
+        style += "_0.jpg);"
+
+      style.htmlSafe()
+    ).property("model.@each.champion")
 
   app.ChampionStatsController
 )

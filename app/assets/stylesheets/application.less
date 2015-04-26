@@ -41,7 +41,13 @@ html {
   }
 }
 
+.page-full {
+  height: 100%;
+}
+
 .page-content {
+  .page-full;
+
   @media (min-width: @grid-float-breakpoint) {
     margin-left: @sidebar-width;
   }
@@ -93,4 +99,13 @@ button.btn-champion-stats-sort {
 .text-border {
   padding: 5px 5px 5px 5px;
   border: 1px solid @table-border-color;
+}
+
+.data-table {
+  background-color: @body-bg;
+}
+
+.champion-background {
+  background-size: 100% auto;
+  background-repeat: no-repeat;
 }
