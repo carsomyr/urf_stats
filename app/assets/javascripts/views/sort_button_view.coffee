@@ -22,9 +22,9 @@
 ).call(@, (Ember, #
            app, #
            PropertySetterView) ->
-  app.ChampionStatsSortButtonView = PropertySetterView.extend
-    templateName: "views/champion_stats_sort_button"
-    classNames: ["btn-champion-stats-sort"]
+  app.SortButtonView = PropertySetterView.extend
+    templateName: "views/sort_button"
+    classNames: ["btn-sort"]
     tagName: "button"
     sortBy: null
     value: Ember.computed.alias("controller.sort_direction")
@@ -58,5 +58,5 @@
       @set("controller.sort_by", @get("sortBy"))
       @set("value", value)
 
-  app.ChampionStatsSortButtonView
+  app.SortButtonView
 )

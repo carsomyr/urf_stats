@@ -23,6 +23,8 @@ module Api
       region = params[:region]
       start_time = params[:start_time]
       start_time &&= DateTime.strptime(start_time, "%s")
+      sort_by = params[:sort_by] || "purchases"
+      sort_direction = params[:sort_direction] || "descending"
       search = params[:search]
 
       ipcs = ItemPurchaseCount.arel_table
@@ -59,36 +61,95 @@ module Api
             ipcs.create_on(ipcs[:item_id].eq ses[:id])
         )
 
-        ipcs_where_node = where_node.and(ses[:name].matches (search + "%"))
+        eis_to_ses_node = eis.create_join(
+            ses,
+            eis.create_on(eis[:entity_id].eq ses[:id])
+        )
+
+        match_node = ses[:name].matches (search + "%")
+        ipcs_where_node = where_node.and(match_node)
+        eis_where_node = where_node.and(match_node).and(eis[:value_type].eq "N_FIRST_ITEM_PURCHASES")
       else
         ipcs_to_ses_node = nil
+        eis_to_ses_node = nil
         ipcs_where_node = where_node
+        eis_where_node = where_node.and(eis[:value_type].eq "N_FIRST_ITEM_PURCHASES")
+      end
+
+      case sort_direction
+        when "descending"
+          sort_method = :desc
+        when "ascending"
+          sort_method = :asc
+        else
+          raise ArgumentError, "Invalid sort direction #{sort_direction.dump}"
       end
 
       total_column_node = Arel::Nodes::SqlLiteral.new("total")
 
-      popular_item_purchases =
+      ipcs_scope =
           ItemPurchaseCount
               .select(ipcs[:item_id], (ipcs[:value].sum.as total_column_node))
               .joins(ipcs_to_stats_node, ipcs_to_ses_node)
-              .where(ipcs_where_node)
               .group(ipcs[:item_id])
-              .order(total_column_node.desc)
-              .limit(N_POPULAR_ITEMS)
+              .order(total_column_node.send(sort_method))
               .preload(:item)
 
-      popular_item_ids = popular_item_purchases.map do |popular_item_purchase|
-        popular_item_purchase.item.id
+      eis_scope =
+          EntityInteger
+              .select(eis[:entity_id], (eis[:value].sum.as total_column_node))
+              .joins(eis_to_stats_node, eis_to_ses_node)
+              .group(eis[:entity_id])
+              .order(total_column_node.send(sort_method))
+
+      case sort_by
+        when "purchases"
+          item_purchases =
+              ipcs_scope
+                  .where(ipcs_where_node)
+                  .limit(N_POPULAR_ITEMS)
+
+          item_ids = item_purchases.map do |item_purchase|
+            item_purchase.item.id
+          end
+
+          first_item_purchases =
+              eis_scope
+                  .where(eis_where_node.and(eis[:entity_id].in item_ids))
+                  .to_a
+
+        when "purchases-first"
+          first_item_purchases =
+              eis_scope
+                  .where(eis_where_node)
+                  .limit(N_POPULAR_ITEMS)
+
+          first_item_ids = first_item_purchases.map do |first_item_purchase|
+            first_item_purchase.entity_id
+          end
+
+          item_purchases =
+              ipcs_scope
+                  .where(ipcs_where_node.and(ipcs[:item_id].in first_item_ids))
+                  .to_a
+
+          # Take the set intersection here to ensure that the array is sorted based on first item purchase totals.
+          item_ids = first_item_ids & item_purchases.map do |item_purchase|
+            item_purchase.item.id
+          end
+
+        else
+          raise ArgumentError, "Invalid sort criterion #{sort_by.dump}"
       end
 
-      top_purchasers_by_item_id = Hash[popular_item_ids.map { |item_id| [item_id, []] }]
+      top_purchasers_by_item_id = Hash[item_ids.map { |item_id| [item_id, []] }]
 
       purchase_count = 0
 
       ItemPurchaseCount
           .select(ipcs[:item_id], ipcs[:purchaser_id], (ipcs[:value].sum.as total_column_node))
           .joins(ipcs_to_stats_node)
-          .where(where_node.and(ipcs[:item_id].in popular_item_ids))
+          .where(where_node.and(ipcs[:item_id].in item_ids))
           .group(ipcs[:item_id], ipcs[:purchaser_id])
           .order(total_column_node.desc)
           .preload(:purchaser)
@@ -101,9 +162,21 @@ module Api
 
           # Break out because we know that further processing is impossible.
           break \
-            if purchase_count == N_TOP_PURCHASERS * popular_item_purchases.size
+            if purchase_count == N_TOP_PURCHASERS * item_purchases.size
         end
       end
+
+      item_purchases_by_item_id = Hash[
+          item_purchases.map do |item_purchase|
+            [item_purchase.item_id, item_purchase]
+          end
+      ]
+
+      first_item_totals_by_item_id = Hash[
+          first_item_purchases.map do |first_item_purchase|
+            [first_item_purchase.entity_id, first_item_purchase.total.to_i]
+          end
+      ]
 
       total_purchases =
           # Convert to an array to prevent `first` from ordering by `id`.
@@ -113,33 +186,24 @@ module Api
               .where(where_node)
               .to_a.first.total
 
-      first_item_purchases =
+      total_first_purchases =
+          # Convert to an array to prevent `first` from ordering by `id`.
           EntityInteger
-              .select(eis[:entity_id], (eis[:value].sum.as total_column_node))
+              .select(eis[:value].sum.as total_column_node)
               .joins(eis_to_stats_node)
               .where(where_node.and(eis[:value_type].eq "N_FIRST_ITEM_PURCHASES"))
-              .group(eis[:entity_id])
+              .to_a.first.total.to_i
 
-      first_item_totals_by_item_id = Hash[popular_item_ids.map { |item_id| [item_id, 0] }]
-
-      total_first_purchases = first_item_purchases.reduce(0) do |n_purchases, first_item_purchase|
-        # Somehow the total is a `BigDecimal`?
-        total = first_item_purchase.total.to_i
-
-        first_item_totals_by_item_id[first_item_purchase.entity_id] = total
-
-        n_purchases + total
-      end
-
-      item_stats = popular_item_purchases.map do |popular_item_purchase|
+      item_stats = item_ids.map do |item_id|
+        item_purchase = item_purchases_by_item_id[item_id]
         is = ItemStat.new
-        item = popular_item_purchase.item
+        item = item_purchase.item
         item_id = item.id
 
         is.id = "#{item_id.to_s}_#{region || "all"}_#{params[:start_time] || "0"}"
         is.item = item
         is.top_purchasers = top_purchasers_by_item_id[item_id]
-        is.n_purchases = popular_item_purchase.total
+        is.n_purchases = item_purchase.total
         is.total_purchases = total_purchases
         is.n_first_purchases = first_item_totals_by_item_id[item_id]
         is.total_first_purchases = total_first_purchases

@@ -34,13 +34,29 @@
             {{entity-search placeholder="Frozen Mallet"}}
         </div>
 
+        <div class="col-sm-2 visible-xs">
+            <div style="margin-top: 15px;">
+                <b>Sort By</b>
+            </div>
+        </div>
+
+        <div class="col-sm-10 visible-xs">
+            {{view "item_stats_sort_bar"}}
+        </div>
+
         <div class="col-sm-12">
             {{#if controller.model}}
                 <div class="data-table" style="margin-top: 15px;">
                     <div class="data-header">
                         <div class="data-cell" style="width: 10%;">Item</div>
-                        <div class="data-cell" style="width: 25%;">Popularity</div>
-                        <div class="data-cell" style="width: 25%;">... as First Item</div>
+                        <div class="data-cell" style="width: 25%;">
+                            Popularity
+                            {{view "sort_button" sortBy=undefined class="btn btn-default btn-xs"}}
+                        </div>
+                        <div class="data-cell" style="width: 25%;">
+                            ... as First Item
+                            {{view "sort_button" sortBy="purchases-first" class="btn btn-default btn-xs"}}
+                        </div>
                         <div class="data-cell" style="width: 40%;">Top Buyers</div>
                     </div>
                     <div class="data-body">

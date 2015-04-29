@@ -17,24 +17,14 @@
 ((factory) ->
   if typeof define is "function" and define.amd?
     define ["ember",
-            "application-base"], factory
+            "application-base",
+            "./property_setter_view"], factory
 ).call(@, (Ember, #
-           app) ->
-  app.ItemStatsRoute = Ember.Route.extend
-    queryParams:
-      region:
-        refreshModel: true
-      start_time:
-        refreshModel: true
-      sort_by:
-        refreshModel: true
-      sort_direction:
-        refreshModel: true
-      search:
-        refreshModel: true
+           app, #
+           PropertySetterView) ->
+  app.ItemStatsSortBarView = Ember.View.extend
+    templateName: "views/item_stats_sort_bar"
+    classNames: ["btn-toolbar", "page"]
 
-    model: (params) ->
-      @store.find("itemStat", params)
-
-  app.ItemStatsRoute
+  app.ItemStatsSortBarView
 )
