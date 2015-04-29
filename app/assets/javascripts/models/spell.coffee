@@ -17,34 +17,14 @@
 ((factory) ->
   if typeof define is "function" and define.amd?
     define ["ember",
+            "ember-data",
             "application-base",
-            "./champion",
-            "./champion_duo_stat",
-            "./champion_lane_stat",
-            "./champion_stat",
-            "./item",
-            "./item_stat",
-            "./mastery",
-            "./polymorphic",
-            "./rune",
-            "./spell",
-            "./stat",
-            "./static_entity",
-            "./useless_rune_mastery_stat"], factory
+            "./static_entity"], factory
 ).call(@, (Ember, #
+           DS, #
            app, #
-           Champion, #
-           ChampionDuoStat, #
-           ChampionLaneStat, #
-           ChampionStat, #
-           Item, #
-           ItemStat, #
-           Mastery, #
-           Polymorphic, #
-           Rune, #
-           Spell, #
-           Stat, #
-           StaticEntity, #
-           UselessRuneMasteryStat) ->
-  app
+           StaticEntity) ->
+  app.Spell = StaticEntity.extend()
+
+  app.Spell
 )

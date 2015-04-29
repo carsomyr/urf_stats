@@ -24,6 +24,7 @@
     tagName: "a"
     attributeBindings: ["href", "dataToggle:data-toggle", "dataPlacement:data-placement", "title"]
     classNames: ["static-entity-link"]
+    width: 48
     model: null
 
     href: (->
@@ -31,7 +32,7 @@
 
       if model isnt null
         switch model.constructor.typeKey
-          when "champion", "item", "mastery"
+          when "champion", "item", "mastery", "spell"
             "http://leagueoflegends.wikia.com/wiki/" + encodeURIComponent(model.get("name").replace(" ", "_"))
           when "rune"
             "http://leagueoflegends.wikia.com/wiki/List_of_runes"
@@ -45,10 +46,20 @@
       model = @get("model")
 
       if model isnt null
-        app.DATA_DRAGON_IMAGE_URL + "/" + model.constructor.typeKey.toLowerCase() + "/" + model.get("imagePath")
+        switch model.constructor.typeKey
+          when "champion", "item", "mastery", "rune"
+            app.DATA_DRAGON_IMAGE_URL + "/" + model.constructor.typeKey.toLowerCase() + "/" + model.get("imagePath")
+          when "spell"
+            app.DATA_DRAGON_IMAGE_URL + "/spell/" + model.get("imagePath")
+          else
+            throw new Error("Invalid static entity type")
       else
         null
     ).property("model")
+
+    imageStyle: (->
+      ("width: " + @get("width") + "px;").htmlSafe()
+    ).property("width")
 
     dataToggle: "tooltip"
     dataPlacement: "bottom"

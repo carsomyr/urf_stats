@@ -42,6 +42,13 @@
       )
     ).property()
 
+    fixtureFlash: (->
+      @store.createRecord("spell",
+        name: "Flash"
+        imagePath: "SummonerFlash.png"
+      )
+    ).property()
+
     fixtureLudensEcho: (->
       @store.createRecord("item",
         name: "Luden's Echo"
@@ -60,6 +67,13 @@
       @store.createRecord("champion",
         name: "Shaco"
         imagePath: "Shaco.png"
+      )
+    ).property()
+
+    fixtureTeleport: (->
+      @store.createRecord("spell",
+        name: "Teleport"
+        imagePath: "SummonerTeleport.png"
       )
     ).property()
 

@@ -13,9 +13,9 @@
                 </a>
                 and are sharing it with you! Many of your pressing questions will be answered, questions like:
             <ul>
-                <li>Just how popular is {{static-entity-image model=controller.fixtureEzreal}}?</li>
-                <li>Do people ban {{static-entity-image model=controller.fixtureShaco}} a lot?</li>
-                <li>How often do players rush {{static-entity-image model=controller.fixtureLudensEcho}}?</li>
+                <li>Just how popular is {{static-entity-image model=controller.fixtureEzreal width=32}}?</li>
+                <li>Do people ban {{static-entity-image model=controller.fixtureShaco width=32}} a lot?</li>
+                <li>How often do players rush {{static-entity-image model=controller.fixtureLudensEcho width=32}}?</li>
             </ul>
             We've collected six kinds of stats for exploration. They are organized around:
             <ul>
@@ -23,22 +23,27 @@
                     taken? How quickly do people give up first blood?
                 </li>
                 <li>{{#link-to "champion_stats"}}<b>Champions</b>{{/link-to}} &mdash; What's
-                    {{static-entity-image model=controller.fixtureZed}}'s win rate? How popular is
-                    {{static-entity-image model=controller.fixtureNidalee}}, despite her having a bad win rate?
+                    {{static-entity-image model=controller.fixtureZed width=32}}'s win rate? How popular is
+                    {{static-entity-image model=controller.fixtureNidalee width=32}}, despite her having a bad win rate?
                 </li>
                 <li>{{#link-to "champion_duo_stats"}}<b>Champion Duos</b>{{/link-to}} &mdash; This stat counts the
                     number of times a pair of champions got an assist off of the other's kill. Did
                     <div class="image-holder" style="display: inline-block;">
-                        {{static-entity-image model=controller.fixtureAlistar}}
-                        {{static-entity-image model=controller.fixtureBlitzcrank}}
+                        {{static-entity-image model=controller.fixtureAlistar width=32}}
+                        {{static-entity-image model=controller.fixtureBlitzcrank width=32}}
                     </div>
                     make the cut?
                 </li>
                 <li>{{#link-to "champion_lane_stats"}}<b>Lanes</b>{{/link-to}} &mdash; Who jungles in a world where
-                    everyone runs Teleport/Flash?
+                    everyone runs
+                    <div class="image-holder" style="display: inline-block;">
+                        {{static-entity-image model=controller.fixtureTeleport width=32}}
+                        {{static-entity-image model=controller.fixtureFlash width=32}}
+                    </div>
+                    ?
                 </li>
                 <li>{{#link-to "item_stats"}}<b>Items</b>{{/link-to}} &mdash; Hint: North America and Europe play a lot
-                    of AP {{static-entity-image model=controller.fixtureEzreal}}.
+                    of AP {{static-entity-image model=controller.fixtureEzreal width=32}}.
                 </li>
                 <li>{{#link-to "useless_rune_mastery_stats"}}<b>Useless Runes and Masteries</b>{{/link-to}} &mdash; URF
                     mode gives 80% CDR and removes resource costs, and yet players <em>still</em> ran those associated

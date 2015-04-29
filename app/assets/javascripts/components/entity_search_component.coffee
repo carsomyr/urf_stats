@@ -24,7 +24,7 @@
   submitDelayLong = 2000
 
   app.EntitySearchComponent = Ember.TextField.extend
-    classNames: ["form-control", "page"]
+    classNames: ["form-control", "page", "entity-search"]
     pendingSubmit: null
     lastSubmittedTimestamp: Date.now()
 
