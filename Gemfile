@@ -36,7 +36,7 @@ gem "pundit"
 gem "rails", ">= 4.2.1"
 gem "sidekiq", ">= 3.3.3"
 gem "sidetiq"
-gem "sprockets", "< 3.0.0" # Can't deal with version 3 yet.
+gem "sprockets"
 gem "sqlite3"
 gem "thin"
 

@@ -84,4 +84,9 @@ class Application < Rails::Application
 
   # Hardcode the time zone.
   config.time_zone = "Eastern Time (US & Canada)"
+
+  # Workaround for ember-rails and Sprockets 3.
+  config.assets.configure do |env|
+    env.register_engine ".hbs", Ember::Handlebars::Template, mime_type: "application/javascript"
+  end
 end
