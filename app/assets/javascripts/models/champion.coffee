@@ -24,7 +24,19 @@
            DS, #
            app, #
            StaticEntity) ->
-  app.Champion = StaticEntity.extend()
+  pngExtensionPattern = new RegExp("\\.png$")
+
+  app.Champion = StaticEntity.extend
+    title: null
+
+    key: (->
+      imagePath = @get("imagePath")
+
+      if imagePath isnt null
+        imagePath.replace(pngExtensionPattern, "")
+      else
+        null
+    ).property("imagePath")
 
   app.Champion
 )

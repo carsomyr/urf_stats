@@ -20,8 +20,6 @@
             "application-base"], factory
 ).call(@, (Ember, #
            app) ->
-  pngExtensionPattern = new RegExp("\\.png$")
-
   app.ChampionStatsController = Ember.Controller.extend
     queryParams: ["region", "start_time", "sort_by", "sort_direction", "search"]
     region: undefined
@@ -30,23 +28,50 @@
     sort_direction: undefined
     search: undefined
     changed: 0
+    championTitle: null
 
     changeObserver: (->
       @set("changed", (@get("changed") + 1) % 64)
     ).observes("region", "start_time", "sort_by", "sort_direction", "search")
 
+    championTitleObserver: (->
+      if @get("model.length") isnt 1
+        @set("championTitle", null)
+
+        return
+
+      championKey = @get("model").objectAt(0).get("champion.key")
+      controller = @
+
+      Ember.$.getJSON app.DATA_DRAGON_DATA_URL + "/champion/" + championKey + ".json", (json) ->
+        controller.set("championTitle", json["data"][championKey]["title"])
+    ).observes("model.@each.champion")
+
     backgroundStyle: (->
       if @get("model.length") isnt 1
         style = ""
       else
-        imagePath = @get("model").objectAt(0).get("champion.imagePath")
+        championKey = @get("model").objectAt(0).get("champion.key")
 
         style = "background-image: url(http://ddragon.leagueoflegends.com/cdn/img/champion/splash/"
-        style += imagePath.replace(pngExtensionPattern, "")
+        style += championKey
         style += "_0.jpg);"
 
       style.htmlSafe()
     ).property("model.@each.champion")
+
+    championNameTitle: (->
+      if @get("model.length") isnt 1
+        return "Champions"
+
+      champion = @get("model").objectAt(0).get("champion")
+      championTitle = @get("championTitle")
+
+      if championTitle isnt null
+        champion.get("name") + ": " + championTitle
+      else
+        "Champions"
+    ).property("model.@each.champion", "championTitle")
 
   app.ChampionStatsController
 )

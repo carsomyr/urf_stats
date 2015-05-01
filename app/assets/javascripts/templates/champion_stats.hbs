@@ -1,11 +1,11 @@
 <div class="container-fluid page-full">
     <div class="row champion-background page-full" {{bind-attr style=controller.backgroundStyle}}>
         <div class="col-sm-12">
-            <h2 style="margin-top: 15px;">Champions</h2>
+            <h2 class="translucent label-edge" style="margin-top: 15px;">{{controller.championNameTitle}}</h2>
         </div>
 
         <div class="col-sm-2">
-            <div style="margin-top: 15px;">
+            <div class="translucent label-edge" style="margin-top: 15px;">
                 <b>Region</b>
             </div>
         </div>
@@ -15,7 +15,7 @@
         </div>
 
         <div class="col-sm-2">
-            <div style="margin-top: 15px;">
+            <div class="translucent label-edge" style="margin-top: 15px;">
                 <b>Date</b>
             </div>
         </div>
@@ -25,17 +25,17 @@
         </div>
 
         <div class="col-sm-2">
-            <div style="margin-top: 15px;">
+            <div class="translucent label-edge" style="margin-top: 15px;">
                 <b>By Name</b>
             </div>
         </div>
 
         <div class="col-sm-10">
-            {{entity-search placeholder="Orianna"}}
+            {{entity-search placeholder="Orianna" class="translucent"}}
         </div>
 
         <div class="col-sm-2 visible-xs">
-            <div style="margin-top: 15px;">
+            <div class="translucent label-edge" style="margin-top: 15px;">
                 <b>Sort By</b>
             </div>
         </div>
@@ -46,23 +46,23 @@
 
         <div class="col-sm-12">
             {{#if controller.model}}
-                <div class="data-table" style="margin-top: 15px;">
+                <div class="data-table translucent" style="margin-top: 15px;">
                     <div class="data-header">
                         <div class="data-cell" style="width: 10%;">Champion</div>
                         <div class="data-cell" style="width: 15%;">
-                            {{view "sort_button" sortBy=undefined class="btn btn-default btn-xs"}}
+                            {{view "sort_button" sortBy=undefined class="btn btn-default btn-xs translucent"}}
                             Win Rate
                         </div>
                         <div class="data-cell" style="width: 15%;">
-                            {{view "sort_button" sortBy="picks" class="btn btn-default btn-xs"}}
+                            {{view "sort_button" sortBy="picks" class="btn btn-default btn-xs translucent"}}
                             Pick Rate
                         </div>
                         <div class="data-cell" style="width: 15%;">
-                            {{view "sort_button" sortBy="bans" class="btn btn-default btn-xs"}}
+                            {{view "sort_button" sortBy="bans" class="btn btn-default btn-xs translucent"}}
                             Ban Rate
                         </div>
                         <div class="data-cell" style="width: 25%;">
-                            {{view "sort_button" sortBy="kills-deaths" class="btn btn-default btn-xs"}}
+                            {{view "sort_button" sortBy="kills-deaths" class="btn btn-default btn-xs translucent"}}
                             Avg Kills/Death
                         </div>
                     </div>
