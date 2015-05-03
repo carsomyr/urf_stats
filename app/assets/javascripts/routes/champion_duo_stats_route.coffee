@@ -26,6 +26,10 @@
         refreshModel: true
       start_time:
         refreshModel: true
+      sort_by:
+        refreshModel: true
+      sort_direction:
+        refreshModel: true
 
     model: (params) ->
       @store.find("championDuoStat", params)

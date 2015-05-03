@@ -22,6 +22,7 @@
             "./region_setter_view",
             "./sort_button_view",
             "./start_time_setter_view",
+            "./champion_duo_stats_sort_bar_view",
             "./champion_stats_sort_bar_view",
             "./item_stats_sort_bar_view"], factory
 ).call(@, (Ember, #
@@ -30,6 +31,7 @@
            RegionSetterView, #
            SortButtonView, #
            StartTimeSetterView, #
+           ChampionDuoStatsSortBarView, #
            ChampionStatsSortBarView, #
            ItemStatsSortBarView) ->
   app

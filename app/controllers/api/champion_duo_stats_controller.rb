@@ -22,6 +22,8 @@ module Api
       region = params[:region]
       start_time = params[:start_time]
       start_time &&= DateTime.strptime(start_time, "%s")
+      sort_by = params[:sort_by] || "kill-assists"
+      sort_direction = params[:sort_direction] || "descending"
 
       kacs = KillAssistCount.arel_table
       stats = Stat.arel_table
@@ -30,8 +32,16 @@ module Api
       total_matches_column_node = Arel::Nodes::SqlLiteral.new("total_matches")
       total_duo_kill_assists_column_node = Arel::Nodes::SqlLiteral.new("total_duo_kill_assists")
       total_duo_matches_column_node = Arel::Nodes::SqlLiteral.new("total_duo_matches")
+      average_duo_kill_assists_column_node = Arel::Nodes::SqlLiteral.new("average_duo_kill_assists")
       subtable = Arel::Table.new("subtable")
       subtable_again = Arel::Table.new("subtable", as: "subtable_again")
+
+      # We can't use Arel's arithmetic syntactic sugar here (see `https://github.com/rails/arel/issues/364`).
+      average_duo_kill_assists_node =
+          Arel::Nodes::Division.new(
+              subtable[:total_kill_assists] + subtable_again[:total_kill_assists],
+              subtable[:total_matches] + subtable_again[:total_matches]
+          )
 
       subtable_to_subtable_again = subtable.create_join(
           subtable_again,
@@ -74,6 +84,24 @@ module Api
                 .group(kacs[:killer_id], kacs[:assister_id])
       end
 
+      case sort_direction
+        when "descending"
+          sort_method = :desc
+        when "ascending"
+          sort_method = :asc
+        else
+          raise ArgumentError, "Invalid sort direction #{sort_direction.dump}"
+      end
+
+      case sort_by
+        when "kill-assists"
+          sort_column_node = total_duo_kill_assists_column_node
+        when "kill-assists-matches"
+          sort_column_node = average_duo_kill_assists_column_node
+        else
+          raise ArgumentError, "Invalid sort criterion #{sort_by.dump}"
+      end
+
       champion_duo_stats =
           KillAssistCount
               .with(subtable.name => cte_subquery)
@@ -83,12 +111,13 @@ module Api
                   ((subtable[:total_kill_assists] + subtable_again[:total_kill_assists])
                        .expr.as total_duo_kill_assists_column_node),
                   ((subtable[:total_matches] + subtable_again[:total_matches])
-                       .expr.as total_duo_matches_column_node)
+                       .expr.as total_duo_matches_column_node),
+                  (average_duo_kill_assists_node.as average_duo_kill_assists_column_node)
               )
               .from(subtable)
               .joins(subtable_to_subtable_again)
               .where(subtable[:killer_id].lt subtable_again[:killer_id]) # Get rid of the symmetric case.
-              .order(total_duo_kill_assists_column_node.desc)
+              .order(sort_column_node.send(sort_method))
               .limit(N_TOP_CHAMPION_DUOS)
               .preload(:killer, :assister)
               .map do |kill_assist_count|

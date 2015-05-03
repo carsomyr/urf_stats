@@ -28,9 +28,15 @@
             <div class="data-table" style="margin-top: 15px;">
                 <div class="data-header">
                     <div class="data-cell" style="width: 25%;">Champion Duo</div>
-                    <div class="data-cell" style="width: 25%;"># Victims</div>
+                    <div class="data-cell" style="width: 25%;">
+                        {{view "sort_button" sortBy=undefined class="btn btn-default btn-xs"}}
+                        # Victims
+                    </div>
                     <div class="data-cell" style="width: 25%;"># Matches</div>
-                    <div class="data-cell" style="width: 25%;">Avg Victims/Match</div>
+                    <div class="data-cell" style="width: 25%;">
+                        {{view "sort_button" sortBy="kill-assists-matches" class="btn btn-default btn-xs"}}
+                        Avg Victims/Match
+                    </div>
                 </div>
                 <div class="data-body">
                     {{#each championDuoStat in controller.model}}

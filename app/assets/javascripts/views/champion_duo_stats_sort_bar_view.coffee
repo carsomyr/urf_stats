@@ -17,20 +17,14 @@
 ((factory) ->
   if typeof define is "function" and define.amd?
     define ["ember",
-            "application-base"], factory
+            "application-base",
+            "./property_setter_view"], factory
 ).call(@, (Ember, #
-           app) ->
-  app.ChampionDuoStatsController = Ember.Controller.extend
-    queryParams: ["region", "start_time", "sort_by", "sort_direction"]
-    region: undefined
-    start_time: undefined
-    sort_by: undefined
-    sort_direction: undefined
-    changed: 0
+           app, #
+           PropertySetterView) ->
+  app.ChampionDuoStatsSortBarView = Ember.View.extend
+    templateName: "views/champion_duo_stats_sort_bar"
+    classNames: ["btn-toolbar", "page"]
 
-    changeObserver: (->
-      @set("changed", (@get("changed") + 1) % 64)
-    ).observes("region", "start_time", "sort_by", "sort_direction")
-
-  app.ChampionDuoStatsController
+  app.ChampionDuoStatsSortBarView
 )
